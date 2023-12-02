@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "args": ["--flavor", "develop", "--target", "lib/main_develop.dart"],
+            "name": "Develop",
+            "program": "lib/main_develop.dart",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "args": ["--flavor", "master", "--target", "lib/main.dart"],
+            "name": "Master",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart"
+        },
+    ]
+}
