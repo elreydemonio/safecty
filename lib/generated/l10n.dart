@@ -50,10 +50,20 @@ class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  /// `helloder`
+  /// `Plan de inspecciones `
+  String get inspectionPlan {
+    return Intl.message(
+      'Plan de inspecciones ',
+      name: 'inspectionPlan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hola`
   String get hello {
     return Intl.message(
-      'helloder',
+      'hola',
       name: 'hello',
       desc: '',
       args: [],

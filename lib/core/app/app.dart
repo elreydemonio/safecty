@@ -13,8 +13,8 @@ import 'bootstrapper.dart';
 class App extends StatefulWidget {
   const App({
     required this.bootstrapper,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Bootstrapper bootstrapper;
 
@@ -73,7 +73,7 @@ class _AppState extends State<App> {
           result = MaterialApp(
             debugShowCheckedModeBanner: false,
             localizationsDelegates: _localizationsDelegates,
-            home: const HomeScreen(title: "Default"),
+            home: const HomeScreen(),
             supportedLocales: AppLocalizations.delegate.supportedLocales,
           );
         }

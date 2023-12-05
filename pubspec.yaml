@@ -17,6 +17,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.3.6
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   http: ^1.1.2
@@ -25,6 +26,7 @@ dependencies:
   json_class: ^3.0.0+8
   jwt_decoder: ^2.0.1
   logging: ^1.0.2
+  lottie: ^2.7.0
   package_info_plus: ^5.0.1
   path: ^1.8.0
   path_provider: ^2.0.9
@@ -45,6 +47,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/animation/
     - assets/config/
     - assets/fonts/
     - assets/images/
@@ -59,3 +62,15 @@ flutter_intl:
   class_name: AppLocalizations
   enabled: true
   main_locale: es_CO
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/splash.png
+
+  android_12:
+    image: assets/images/splash12.png
+    icon_background_color: "#ffffff"
+
+  android: true
+  ios: true
+  web: false
