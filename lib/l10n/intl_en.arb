@@ -1,4 +1,9 @@
 {
     "inspectionPlan": "inspection plan",
-    "hello": "hello"
+    "hello": "hello",
+    "infoProfile": "Account information",
+    "workCenters": "Work Center",
+    "ChangeWorkCenter": "Change work center",
+    "signOff": "Sign Off",
+    "deleteLocalDate": "All local data is deleted"
 }

@@ -1,4 +1,9 @@
 {
     "inspectionPlan": "Plan de inspecciones ",
-    "hello": "hola"
+    "hello": "hola",
+    "infoProfile": "Informacion de la cuenta",
+    "workCenters": "Centro de trabajo",
+    "ChangeWorkCenter": "Cambiar centro de trabajo",
+    "signOff": "Cerrar sesión",
+    "deleteLocalDate": "Se elimina todo los datos locales "
 }

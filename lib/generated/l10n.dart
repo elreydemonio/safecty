@@ -69,6 +69,56 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Informacion de la cuenta`
+  String get infoProfile {
+    return Intl.message(
+      'Informacion de la cuenta',
+      name: 'infoProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Centro de trabajo`
+  String get workCenters {
+    return Intl.message(
+      'Centro de trabajo',
+      name: 'workCenters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cambiar centro de trabajo`
+  String get ChangeWorkCenter {
+    return Intl.message(
+      'Cambiar centro de trabajo',
+      name: 'ChangeWorkCenter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cerrar sesión`
+  String get signOff {
+    return Intl.message(
+      'Cerrar sesión',
+      name: 'signOff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se elimina todo los datos locales `
+  String get deleteLocalDate {
+    return Intl.message(
+      'Se elimina todo los datos locales ',
+      name: 'deleteLocalDate',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

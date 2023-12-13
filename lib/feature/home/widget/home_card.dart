@@ -22,36 +22,35 @@ class HomeCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         color: AppColors.whiteBone,
-        height: size.height * 0.22,
+        height: size.height * 0.2,
         padding: const EdgeInsets.all(Spacing.small),
-        width: size.width * 0.44,
+        width: size.width * 0.4,
         child: Column(
           children: [
             const SizedBox(
               height: Spacing.xLarge,
             ),
             Container(
-                width: 80.0,
-                height: 80.0,
-                decoration: BoxDecoration(
-                  color: AppColors.black,
-                  border: Border.all(
-                    width: 1.0,
+                width: 60.0,
+                height: 60.0,
+                decoration: const BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50.0),
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                 ),
                 child: Center(
                   child: Icon(
                     icon,
                     color: AppColors.white,
-                    size: 40.0,
+                    size: 30.0,
                   ),
                 )),
             const SizedBox(
               height: Spacing.medium,
             ),
             const Divider(
-              thickness: 2.0,
+              thickness: 1.0,
             ),
             const SizedBox(
               height: Spacing.small,

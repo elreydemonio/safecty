@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:safecty/feature/home/home_screen.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_screen.dart';
+import 'package:safecty/feature/login/login_screen.dart';
+import 'package:safecty/feature/profile/profile_screen.dart';
 import 'package:safecty/feature/splash/splash_screen.dart';
+import 'package:safecty/feature/work_center/work_center_screen.dart';
 import 'named_route.dart';
 import 'slide_page_route.dart';
 
@@ -12,6 +15,20 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
       Slide slide = Slide.left;
 
       switch (routeSettings.name) {
+        case NamedRoute.inspectionPlanScreen:
+          route = SlidePageRoute(
+            offset: slide.slideSide,
+            page: const InspectionPlanScreen(),
+            routeName: routeSettings.name,
+          );
+          break;
+        case NamedRoute.profileScreen:
+          route = SlidePageRoute(
+            offset: slide.slideSide,
+            page: const ProfileScreen(),
+            routeName: routeSettings.name,
+          );
+          break;
         case NamedRoute.homeScreen:
           route = SlidePageRoute(
             offset: slide.slideSide,
@@ -19,10 +36,20 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
             routeName: routeSettings.name,
           );
           break;
-        case NamedRoute.inspectionPlanScreen:
+        case NamedRoute.loginScreen:
           route = SlidePageRoute(
             offset: slide.slideSide,
-            page: const InspectionPlanScreen(),
+            page: const LoginScreen(),
+            routeName: routeSettings.name,
+          );
+          break;
+        case NamedRoute.workCenterScreen:
+          route = SlidePageRoute(
+            offset: slide.slideSide,
+            page: WorkCenterScreen(
+              identificationCard:
+                  argumentsMap!["identificationCard"].toString(),
+            ),
             routeName: routeSettings.name,
           );
           break;

@@ -9,6 +9,7 @@ environment:
   sdk: ">=3.2.2 <4.0.0"
 
 dependencies:
+  auto_size_text: ^3.0.0
   connectivity_plus: ^5.0.2
   dartz: ^0.10.1
   dropdown_button2: ^2.3.9

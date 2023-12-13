@@ -6,7 +6,7 @@
   "[dart]": {
     // Automatically add const values everywhere needed
     "editor.codeActionsOnSave": {
-      "source.fixAll": true
+      "source.fixAll": "explicit"
     },
     // Automatically format code on save and during typing of certain characters
     // (like `;` and `}`).
@@ -43,7 +43,7 @@
     // current file when a language service does not provide its own completions.
     // This results in code completion suggesting words when editing comments and
     // strings. This setting will prevent that.
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "workbench.editor.showTabs": "multiple",
   "breadcrumbs.enabled": false

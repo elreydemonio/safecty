@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:safecty/feature/home/home_screen.dart';
+import 'package:safecty/feature/home/home_view_model.dart';
+import 'package:safecty/feature/home_initial.dart';
+import 'package:safecty/feature/login/login_view_mode.dart';
+import 'package:safecty/feature/profile/profile_view_model.dart';
+import 'package:safecty/feature/work_center/work_center_view_model.dart';
 
 import '../../../generated/l10n.dart';
 import '../../theme/app_themes.dart';
@@ -49,12 +53,27 @@ class _AppState extends State<App> {
       initialData: false,
       stream: widget.bootstrapper.bootstrapStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasError) {
+          print("Error during bootstrap: ${snapshot.error}");
+        }
         Widget result;
         if (snapshot.data ?? true) {
           result = MultiProvider(
             providers: <SingleChildWidget>[
               ChangeNotifierProvider<ThemeViewModel>(
                 create: (context) => widget.bootstrapper.themeViewModel,
+              ),
+              ChangeNotifierProvider<LoginViewModel>(
+                create: (context) => widget.bootstrapper.loginViewModel,
+              ),
+              ChangeNotifierProvider<WorkCenterViewModel>(
+                create: (context) => widget.bootstrapper.workCenterViewModel,
+              ),
+              ChangeNotifierProvider<HomeViewModel>(
+                create: (context) => widget.bootstrapper.homeViewModel,
+              ),
+              ChangeNotifierProvider<ProfileViewModel>(
+                create: (context) => widget.bootstrapper.profileViewModel,
               ),
             ],
             child: Consumer<ThemeViewModel>(
@@ -73,7 +92,7 @@ class _AppState extends State<App> {
           result = MaterialApp(
             debugShowCheckedModeBanner: false,
             localizationsDelegates: _localizationsDelegates,
-            home: const HomeScreen(),
+            home: const HomeIntialScreen(),
             supportedLocales: AppLocalizations.delegate.supportedLocales,
           );
         }
