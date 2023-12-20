@@ -24,13 +24,26 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "ChangeWorkCenter":
             MessageLookupByLibrary.simpleMessage("Change work center"),
+        "Zone": MessageLookupByLibrary.simpleMessage("Zone"),
+        "certificate": MessageLookupByLibrary.simpleMessage("Certificate"),
+        "configureInspection":
+            MessageLookupByLibrary.simpleMessage("Set up inspection"),
         "deleteLocalDate":
             MessageLookupByLibrary.simpleMessage("All local data is deleted"),
         "hello": MessageLookupByLibrary.simpleMessage("hello"),
         "infoProfile":
             MessageLookupByLibrary.simpleMessage("Account information"),
+        "inspection": MessageLookupByLibrary.simpleMessage("Inspection"),
         "inspectionPlan":
             MessageLookupByLibrary.simpleMessage("inspection plan"),
+        "newInspection": MessageLookupByLibrary.simpleMessage("New inspection"),
+        "readingQr": MessageLookupByLibrary.simpleMessage("Reading qr"),
+        "risk": MessageLookupByLibrary.simpleMessage("Risk"),
+        "selectInspection":
+            MessageLookupByLibrary.simpleMessage("Select inspection"),
+        "selectRisk": MessageLookupByLibrary.simpleMessage("Select risk"),
+        "selectZone": MessageLookupByLibrary.simpleMessage("Select zone"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "signOff": MessageLookupByLibrary.simpleMessage("Sign Off"),
         "workCenters": MessageLookupByLibrary.simpleMessage("Work Center")
       };

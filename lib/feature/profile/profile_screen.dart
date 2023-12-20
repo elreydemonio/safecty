@@ -48,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (value.state == ProfileViewState.logout) {
           SchedulerBinding.instance.addPostFrameCallback(
             (_) {
-              value.init();
               Navigator.of(context)
                   .pushReplacementNamed(NamedRoute.loginScreen);
             },

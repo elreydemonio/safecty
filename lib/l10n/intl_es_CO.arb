@@ -5,5 +5,16 @@
     "workCenters": "Centro de trabajo",
     "ChangeWorkCenter": "Cambiar centro de trabajo",
     "signOff": "Cerrar sesión",
-    "deleteLocalDate": "Se elimina todo los datos locales "
+    "deleteLocalDate": "Se elimina todo los datos locales",
+    "send": "Enviar",
+    "inspection": "Inspection",
+    "selectInspection": "Elegir inspection",
+    "risk": "Riesgo",
+    "selectRisk": "Elegir riesgo",
+    "Zone": "Zona",
+    "selectZone": "Elegir zona",
+    "configureInspection": "Configurar inspección",
+    "newInspection": "nueva inspección",
+    "readingQr": "Leer qr",
+    "certificate": "certificado"
 }

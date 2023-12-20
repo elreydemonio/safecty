@@ -110,11 +110,121 @@ class AppLocalizations {
     );
   }
 
-  /// `Se elimina todo los datos locales `
+  /// `Se elimina todo los datos locales`
   String get deleteLocalDate {
     return Intl.message(
-      'Se elimina todo los datos locales ',
+      'Se elimina todo los datos locales',
       name: 'deleteLocalDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enviar`
+  String get send {
+    return Intl.message(
+      'Enviar',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inspection`
+  String get inspection {
+    return Intl.message(
+      'Inspection',
+      name: 'inspection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Elegir inspection`
+  String get selectInspection {
+    return Intl.message(
+      'Elegir inspection',
+      name: 'selectInspection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riesgo`
+  String get risk {
+    return Intl.message(
+      'Riesgo',
+      name: 'risk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Elegir riesgo`
+  String get selectRisk {
+    return Intl.message(
+      'Elegir riesgo',
+      name: 'selectRisk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zona`
+  String get Zone {
+    return Intl.message(
+      'Zona',
+      name: 'Zone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Elegir zona`
+  String get selectZone {
+    return Intl.message(
+      'Elegir zona',
+      name: 'selectZone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configurar inspección`
+  String get configureInspection {
+    return Intl.message(
+      'Configurar inspección',
+      name: 'configureInspection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `nueva inspección`
+  String get newInspection {
+    return Intl.message(
+      'nueva inspección',
+      name: 'newInspection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leer qr`
+  String get readingQr {
+    return Intl.message(
+      'Leer qr',
+      name: 'readingQr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `certificado`
+  String get certificate {
+    return Intl.message(
+      'certificado',
+      name: 'certificate',
       desc: '',
       args: [],
     );

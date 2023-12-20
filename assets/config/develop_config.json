@@ -1,9 +1,13 @@
 {
   "databaseFileName": "database.db",
   "endpoints": {
-    "baseUrlGet": "http://www.out-safety.com:8085/query/sincronizacion/",
+    "baseUrlGet": "http://www.out-safety.com/query/sincronizacion/",
     "getWorkCenterByPerson": "GetCentrosTrabajoByPersona",
     "login": "ValidarPersonaAvatar",
-    "workCenter": "GetCentrosTrabajoByPersona"
+    "workCenter": "GetCentrosTrabajoByPersona",
+    "inspectionsPlanPending":"GetInspectionsPlanPending",
+    "area": "GetAreasByEmpresa",
+    "inspection": "GetInspecciones",
+    "risks": "GetRiesgosByEmpresa"
   }
 }

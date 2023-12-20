@@ -4,6 +4,10 @@ class Endpoints {
     required this.getWorkCenterByPerson,
     required this.login,
     required this.workCenter,
+    required this.inspectionsPlanPending,
+    required this.area,
+    required this.inspection,
+    required this.risks,
   });
 
   factory Endpoints.fromMap(Map<String, dynamic> map) => Endpoints(
@@ -11,12 +15,20 @@ class Endpoints {
         getWorkCenterByPerson: map[_AttributesKeys.getWorkCenterByPerson],
         login: map[_AttributesKeys.login],
         workCenter: map[_AttributesKeys.workCenter],
+        inspectionsPlanPending: map[_AttributesKeys.inspectionsPlanPending],
+        area: map[_AttributesKeys.area],
+        inspection: map[_AttributesKeys.inspection],
+        risks: map[_AttributesKeys.risks],
       );
 
   final String baseUrlGet;
   final String getWorkCenterByPerson;
   final String login;
   final String workCenter;
+  final String inspectionsPlanPending;
+  final String area;
+  final String inspection;
+  final String risks;
 }
 
 abstract class _AttributesKeys {
@@ -24,4 +36,8 @@ abstract class _AttributesKeys {
   static const getWorkCenterByPerson = 'getWorkCenterByPerson';
   static const login = 'login';
   static const workCenter = 'workCenter';
+  static const inspectionsPlanPending = 'inspectionsPlanPending';
+  static const area = 'area';
+  static const inspection = 'inspection';
+  static const risks = 'risks';
 }

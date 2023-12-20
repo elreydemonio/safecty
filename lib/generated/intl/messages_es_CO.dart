@@ -24,13 +24,27 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "ChangeWorkCenter":
             MessageLookupByLibrary.simpleMessage("Cambiar centro de trabajo"),
+        "Zone": MessageLookupByLibrary.simpleMessage("Zona"),
+        "certificate": MessageLookupByLibrary.simpleMessage("certificado"),
+        "configureInspection":
+            MessageLookupByLibrary.simpleMessage("Configurar inspección"),
         "deleteLocalDate": MessageLookupByLibrary.simpleMessage(
-            "Se elimina todo los datos locales "),
+            "Se elimina todo los datos locales"),
         "hello": MessageLookupByLibrary.simpleMessage("hola"),
         "infoProfile":
             MessageLookupByLibrary.simpleMessage("Informacion de la cuenta"),
+        "inspection": MessageLookupByLibrary.simpleMessage("Inspection"),
         "inspectionPlan":
             MessageLookupByLibrary.simpleMessage("Plan de inspecciones "),
+        "newInspection":
+            MessageLookupByLibrary.simpleMessage("nueva inspección"),
+        "readingQr": MessageLookupByLibrary.simpleMessage("Leer qr"),
+        "risk": MessageLookupByLibrary.simpleMessage("Riesgo"),
+        "selectInspection":
+            MessageLookupByLibrary.simpleMessage("Elegir inspection"),
+        "selectRisk": MessageLookupByLibrary.simpleMessage("Elegir riesgo"),
+        "selectZone": MessageLookupByLibrary.simpleMessage("Elegir zona"),
+        "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "signOff": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
         "workCenters": MessageLookupByLibrary.simpleMessage("Centro de trabajo")
       };
