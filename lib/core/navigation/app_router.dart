@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safecty/feature/home/home_screen.dart';
+import 'package:safecty/feature/inspection_check/inspection_check_screen.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_screen.dart';
 import 'package:safecty/feature/login/login_screen.dart';
 import 'package:safecty/feature/profile/profile_screen.dart';
@@ -19,6 +20,13 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
           route = SlidePageRoute(
             offset: slide.slideSide,
             page: const InspectionPlanScreen(),
+            routeName: routeSettings.name,
+          );
+          break;
+        case NamedRoute.inspectionCheckScreen:
+          route = SlidePageRoute(
+            offset: slide.slideSide,
+            page: const InspectionCheckScreen(),
             routeName: routeSettings.name,
           );
           break;

@@ -16,6 +16,7 @@ enum InspectionPlanViewState {
   loading,
   loadingInspection,
   completedInspection,
+  completedStore,
 }
 
 class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
@@ -30,8 +31,11 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
 
   String? valueZone;
   String? risk;
-  String? inspection;
+  String? inspectionValue;
 
+  List<Inspection>? _inspections;
+  List<Area>? _areas;
+  List<Risk>? _risks;
   InspectionsPlanPending? _inspectionsPlanPending;
   final List<DropDownType> _areaList = [];
   final List<DropDownType> _riskList = [];
@@ -42,6 +46,8 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
   List<DropDownType>? get areaList => _areaList;
   List<DropDownType>? get riskList => _riskList;
   List<DropDownType>? get inspectionList => _inspectionList;
+
+  void init() => super.initialize(InspectionPlanViewState.initial);
 
   Future<void> getInspections() async {
     setState(InspectionPlanViewState.loading);
@@ -79,6 +85,7 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
         if (area == null) {
           setState(InspectionPlanViewState.error);
         }
+        _areas = area;
         _areaList.addAll(
           area!.map(
             (e) => DropDownType(e.areaId.toString(), e.description),
@@ -87,6 +94,23 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
         setState(InspectionPlanViewState.completed);
       },
     );
+  }
+
+  Future<void> savedConfig() async {
+    setState(InspectionPlanViewState.loading);
+    Inspection inspection = _inspections!.firstWhere(
+      (element) => element.inspectionId == int.parse(inspectionValue!),
+    );
+    Area area = _areas!.firstWhere(
+      (element) => element.areaId == int.parse(valueZone!),
+    );
+    Risk riskFirst = _risks!.firstWhere(
+      (element) => element.riskId == int.parse(risk!),
+    );
+    await _secureStorage.storeInspection(inspection);
+    await _secureStorage.storeArea(area);
+    await _secureStorage.storeRisk(riskFirst);
+    setState(InspectionPlanViewState.completedStore);
   }
 
   Future<void> getRisk() async {
@@ -103,6 +127,7 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
         if (risk == null) {
           setState(InspectionPlanViewState.error);
         }
+        _risks = risk;
         _riskList.addAll(
           risk!.map(
             (e) => DropDownType(e.riskId.toString(), e.description),
@@ -128,9 +153,10 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
         if (inspection == null) {
           setState(InspectionPlanViewState.error);
         }
+        _inspections = inspection!;
         _inspectionList = [];
         _inspectionList!.addAll(
-          inspection!.map(
+          inspection.map(
             (e) => DropDownType(
               e.inspectionId.toString(),
               e.descriptionInspection,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/theme/app_colors.dart';
+import 'package:safecty/theme/app_imagen.dart';
 import 'package:safecty/theme/spacing.dart';
 import 'package:safecty/widgets/color_button.dart';
 import 'package:safecty/widgets/snackbar.dart';
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: size.width,
                   child: Center(
                     child: Image.asset(
-                      "assets/images/logo.png",
+                      AppImages.logo,
                       color: AppColors.white,
                     ),
                   ),

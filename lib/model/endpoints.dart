@@ -8,6 +8,7 @@ class Endpoints {
     required this.area,
     required this.inspection,
     required this.risks,
+    required this.parameter,
   });
 
   factory Endpoints.fromMap(Map<String, dynamic> map) => Endpoints(
@@ -19,6 +20,7 @@ class Endpoints {
         area: map[_AttributesKeys.area],
         inspection: map[_AttributesKeys.inspection],
         risks: map[_AttributesKeys.risks],
+        parameter: map[_AttributesKeys.parameter],
       );
 
   final String baseUrlGet;
@@ -29,6 +31,7 @@ class Endpoints {
   final String area;
   final String inspection;
   final String risks;
+  final String parameter;
 }
 
 abstract class _AttributesKeys {
@@ -40,4 +43,5 @@ abstract class _AttributesKeys {
   static const area = 'area';
   static const inspection = 'inspection';
   static const risks = 'risks';
+  static const parameter = 'parameter';
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:safecty/feature/home/home_view_model.dart';
 import 'package:safecty/feature/home_initial.dart';
+import 'package:safecty/feature/inspection_check/inspection_check_view_model.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
 import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/feature/profile/profile_view_model.dart';
@@ -79,6 +80,10 @@ class _AppState extends State<App> {
               ChangeNotifierProvider<InspectionPlanViewModel>(
                 create: (context) =>
                     widget.bootstrapper.inspectionPlanViewModel,
+              ),
+              ChangeNotifierProvider<InspectionCheckViewModel>(
+                create: (context) =>
+                    widget.bootstrapper.inspectionCheckViewModel,
               ),
             ],
             child: Consumer<ThemeViewModel>(

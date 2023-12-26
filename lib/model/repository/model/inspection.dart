@@ -32,6 +32,17 @@ class Inspection {
   final String imagePath;
   final bool parameters;
   final String? area;
+
+  static Map<String, dynamic> toMap(Inspection inspection) => <String, dynamic>{
+        _AttributeKeys.companyId: inspection.companyId,
+        _AttributeKeys.inspectionId: inspection.inspectionId,
+        _AttributeKeys.descriptionInspection: inspection.descriptionInspection,
+        _AttributeKeys.riskId: inspection.riskId,
+        _AttributeKeys.parameters: inspection.parameters,
+        _AttributeKeys.areaId: inspection.areaId,
+        _AttributeKeys.area: inspection.area,
+        _AttributeKeys.imagePath: inspection.imagePath
+      };
 }
 
 abstract class _AttributeKeys {
@@ -42,5 +53,5 @@ abstract class _AttributeKeys {
   static const String parameters = 'parametros_precumplidos';
   static const String areaId = 'intIdArea';
   static const String area = 'Area';
-  static const String imagePath = 'strDescripcionInspeccion';
+  static const String imagePath = 'strRutaImagen';
 }

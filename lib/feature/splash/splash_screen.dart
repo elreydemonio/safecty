@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(duration, route);
   }
 
-  route() => Navigator.of(context).pushReplacementNamed(NamedRoute.loginScreen);
+  route() => Navigator.of(context)
+      .pushReplacementNamed(NamedRoute.inspectionCheckScreen);
 
   @override
   Widget build(BuildContext context) {

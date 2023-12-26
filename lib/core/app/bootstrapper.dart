@@ -7,10 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safecty/core/app/flavor.dart';
 import 'package:safecty/feature/home/home_view_model.dart';
+import 'package:safecty/feature/inspection_check/inspection_check_view_model.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
 import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/feature/profile/profile_view_model.dart';
 import 'package:safecty/feature/work_center/work_center_view_model.dart';
+import 'package:safecty/model/repository/inspection_check/inspection_check_impl.dart';
 import 'package:safecty/model/repository/inspection_plan/inspection_plan_impl.dart';
 import 'package:safecty/model/repository/login/login_repository.dart';
 import 'package:safecty/model/repository/work_center/work_center_impl.dart';
@@ -44,6 +46,8 @@ abstract class Bootstrapper {
   HomeViewModel get homeViewModel;
 
   InspectionPlanViewModel get inspectionPlanViewModel;
+
+  InspectionCheckViewModel get inspectionCheckViewModel;
 
   LoginViewModel get loginViewModel;
 
@@ -86,6 +90,7 @@ class _BaseBootstrapper implements Bootstrapper {
   late WorkCenterViewModel _centerViewModel;
   late ProfileViewModel _profileViewModel;
   late InspectionPlanViewModel _inspectionPlanViewModel;
+  late InspectionCheckViewModel _inspectionCheckViewModel;
 
   bool _initialized = false;
 
@@ -119,6 +124,14 @@ class _BaseBootstrapper implements Bootstrapper {
 
       _loginViewModel = LoginViewModel(
         loginRepository: LoginRepositoryImpl(
+          endpoints: _config.endpoints,
+          networkClient: _networkClient,
+        ),
+        secureStorage: _secureStorage,
+      );
+
+      _inspectionCheckViewModel = InspectionCheckViewModel(
+        inspectionCheckRepository: InspectionCheckRepositoryImpl(
           endpoints: _config.endpoints,
           networkClient: _networkClient,
         ),
@@ -176,6 +189,10 @@ class _BaseBootstrapper implements Bootstrapper {
 
   @override
   WorkCenterViewModel get workCenterViewModel => _centerViewModel;
+
+  @override
+  InspectionCheckViewModel get inspectionCheckViewModel =>
+      _inspectionCheckViewModel;
 
   @override
   InspectionPlanViewModel get inspectionPlanViewModel =>

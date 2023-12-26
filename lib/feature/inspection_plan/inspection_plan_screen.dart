@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_text.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_tooltip.dart';
@@ -118,6 +119,19 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
               ScaffoldMessenger.of(context).showSnackBar(const SnackBarWidget(
                 message: "Error, volver a cargar la aplicacion",
               ).build(context));
+            },
+          );
+          return LoadingWidget(
+            height: size.height,
+            width: size.width,
+          );
+        }
+        if (value.state == InspectionPlanViewState.completedStore) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              value.init();
+              Navigator.of(context)
+                  .pushReplacementNamed(NamedRoute.inspectionCheckScreen);
             },
           );
           return LoadingWidget(
@@ -357,7 +371,11 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                           hinText: AppLocalizations.of(context).selectZone,
                           data: value.areaList!,
                           value: value.valueZone,
-                          onChange: (newValue) {},
+                          onChange: (newValue) {
+                            setState(() {
+                              value.valueZone = newValue;
+                            });
+                          },
                         ),
                         const SizedBox(height: Spacing.medium),
                         DropDowInspection(
@@ -383,16 +401,24 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                                 hinText: AppLocalizations.of(context)
                                     .selectInspection,
                                 data: value.inspectionList!,
-                                value: value.inspection,
-                                onChange: (newValue) {},
+                                value: value.inspectionValue,
+                                onChange: (newValue) {
+                                  setState(() {
+                                    value.inspectionValue = newValue;
+                                  });
+                                },
                               ),
                         const SizedBox(height: Spacing.xLarge),
                         MyElevatedButton(
                           width: size.width * 0.5,
                           height: 50.0,
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState != null &&
-                                _formKey.currentState!.validate()) {}
+                                _formKey.currentState!.validate()) {
+                              Navigator.of(context).pop();
+                              value.inspectionValue;
+                              await value.savedConfig();
+                            }
                           },
                           borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(

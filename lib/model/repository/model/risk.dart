@@ -11,6 +11,11 @@ class Risk {
 
   final String description;
   final int riskId;
+
+  static Map<String, dynamic> toMap(Risk risk) => <String, dynamic>{
+        _AttributeKeys.description: risk.description,
+        _AttributeKeys.riskId: risk.riskId,
+      };
 }
 
 abstract class _AttributeKeys {

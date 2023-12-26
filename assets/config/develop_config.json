@@ -8,6 +8,7 @@
     "inspectionsPlanPending":"GetInspectionsPlanPending",
     "area": "GetAreasByEmpresa",
     "inspection": "GetInspecciones",
-    "risks": "GetRiesgosByEmpresa"
+    "risks": "GetRiesgosByEmpresa",
+    "parameter": "GetParametros"
   }
 }

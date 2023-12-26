@@ -14,6 +14,12 @@ class Area {
   final String description;
   final int companyId;
   final int areaId;
+
+  static Map<String, dynamic> toMap(Area area) => <String, dynamic>{
+        _AttributeKeys.companyId: area.companyId,
+        _AttributeKeys.areaId: area.areaId,
+        _AttributeKeys.description: area.description,
+      };
 }
 
 abstract class _AttributeKeys {
