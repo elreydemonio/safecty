@@ -9,6 +9,7 @@
     "area": "GetAreasByEmpresa",
     "inspection": "GetInspecciones",
     "risks": "GetRiesgosByEmpresa",
-    "parameter": "GetParametros"
+    "parameter": "GetParametros",
+    "person": "GetPersonas"
   }
 }

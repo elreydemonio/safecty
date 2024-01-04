@@ -3,6 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:safecty/feature/inspection_check/inspection_check_view_model.dart';
 import 'package:safecty/feature/inspection_check/widget/card_elevation.dart';
+import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
+import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
+import 'package:safecty/model/repository/model/parameter_inspecton.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/app_imagen.dart';
 import 'package:safecty/theme/spacing.dart';
@@ -19,7 +22,7 @@ class InspectionCheckScreen extends StatefulWidget {
 
 class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
   int _selectedIndex = 0;
-  List<bool>? isCheckList;
+  List<ParameterInspection>? listParameters;
 
   @override
   void initState() {
@@ -28,10 +31,6 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) async {
         await viewModel.getParameter();
-        if (viewModel.state == InspectionCheckViewState.completed) {
-          isCheckList = List.generate(viewModel.listParameters!.length,
-              (index) => viewModel.inspection!.parameters);
-        }
       },
     );
   }
@@ -62,9 +61,16 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
           );
         }
         if (value.state == InspectionCheckViewState.completed) {
+          listParameters = value.listParameters;
           return ScaffoldWidget(
             selectedIndex: _selectedIndex,
             onTabSelected: (index) {
+              value.saveParameters(listParameters!);
+              value.init();
+              final viewModel = context.read<InspectionImageViewModel>();
+              viewModel.init();
+              final viewModelPerson = context.read<InspectionPersonViewModel>();
+              viewModelPerson.init();
               setState(() {
                 _selectedIndex = index;
               });
@@ -74,7 +80,7 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: size.height * 0.25,
+                  height: size.height * 0.2,
                   width: size.width,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -114,10 +120,9 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                   ),
                 ),
                 Container(
-                  height: size.height * 0.4,
+                  height: size.height * 0.45,
                   padding: const EdgeInsets.only(
                     bottom: Spacing.medium,
-                    top: Spacing.medium,
                     left: Spacing.xLarge,
                     right: Spacing.xLarge,
                   ),
@@ -145,10 +150,11 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                                 index: index,
                                 description: value.listParameters![index]
                                     .descriptionParameter,
-                                check: isCheckList![index],
+                                check: value.listParameters![index].isCheck!,
                                 isCheck: (bool? active) {
                                   setState(() {
-                                    isCheckList![index] = active!;
+                                    value.listParameters![index].isCheck =
+                                        active!;
                                   });
                                 },
                               ),

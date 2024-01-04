@@ -11,6 +11,8 @@ enum InspectionCheckViewState {
   error,
   initial,
   loading,
+  loadingSaved,
+  completedSaved,
   data,
 }
 
@@ -46,17 +48,71 @@ class InspectionCheckViewModel extends BaseViewModel<InspectionCheckViewState> {
       setState(InspectionCheckViewState.error);
     }
 
+    final responseLocal =
+        await _inspectionCheckRepository.getParameters('parametersInspection');
+
+    responseLocal.fold(
+      (failure) => setState(InspectionCheckViewState.error),
+      (List<ParameterInspection>? listParameters) async {
+        if (listParameters != null || listParameters!.isEmpty) {
+          if (listParameters[0].inspectionId == _inspection!.inspectionId) {
+            _listParameters = listParameters;
+            setState(InspectionCheckViewState.completed);
+          } else {
+            final responseList = await _getParameterUrl();
+            if (responseList == null) {
+              setState(InspectionCheckViewState.error);
+            }
+            _listParameters = responseList;
+            _isCheckAll(inspection!.parameters);
+            setState(InspectionCheckViewState.completed);
+          }
+        } else {
+          final responseList = await _getParameterUrl();
+          if (responseList == null) {
+            setState(InspectionCheckViewState.error);
+          }
+          _listParameters = responseList;
+          _isCheckAll(inspection!.parameters);
+          setState(InspectionCheckViewState.completed);
+        }
+      },
+    );
+  }
+
+  void _isCheckAll(bool parameter) {
+    for (var obj in _listParameters!) {
+      obj.isCheck = parameter;
+    }
+  }
+
+  Future<List<ParameterInspection>?> _getParameterUrl() async {
     final response = await _inspectionCheckRepository
         .getParameter(_inspection!.inspectionId);
 
+    return response.fold(
+      (failure) {
+        return null;
+      },
+      (List<ParameterInspection>? listParameters) {
+        return listParameters;
+      },
+    );
+  }
+
+  Future<void> saveParameters(List<ParameterInspection> listParameters) async {
+    setState(InspectionCheckViewState.loadingSaved);
+    final response =
+        await _inspectionCheckRepository.savedParameters(listParameters);
+
     response.fold(
       (failure) => setState(InspectionCheckViewState.error),
-      (List<ParameterInspection>? listParameters) async {
-        if (listParameters == null) {
+      (bool? listParameters) async {
+        if (listParameters!) {
+          setState(InspectionCheckViewState.completedSaved);
+        } else {
           setState(InspectionCheckViewState.error);
         }
-        _listParameters = listParameters;
-        setState(InspectionCheckViewState.completed);
       },
     );
   }

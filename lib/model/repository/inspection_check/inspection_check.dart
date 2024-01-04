@@ -6,4 +6,10 @@ abstract class InspectionCheckRepository {
   Future<Either<Failure, List<ParameterInspection>?>> getParameter(
     int inspectionId,
   );
+  Future<Either<Failure, bool?>> savedParameters(
+    List<ParameterInspection> listParameters,
+  );
+  Future<Either<Failure, List<ParameterInspection>?>> getParameters(
+    String parameterId,
+  );
 }

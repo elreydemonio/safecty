@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/spacing.dart';
 
@@ -8,11 +9,13 @@ class ScaffoldWidget extends StatelessWidget {
     required this.selectedIndex,
     required this.onTabSelected,
     required this.child,
+    this.floatingActionButton,
   });
 
   final int selectedIndex;
   final ValueChanged<int> onTabSelected;
   final Widget child;
+  final Widget? floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +34,10 @@ class ScaffoldWidget extends StatelessWidget {
               onTabSelected: onTabSelected,
             ),
           ),
-          Expanded(
-            child: Center(
-              child: child,
-            ),
-          ),
+          Expanded(child: child)
         ],
       ),
+      floatingActionButton: floatingActionButton,
     );
   }
 }
@@ -60,18 +60,18 @@ class MyCustomNavigationBar extends StatelessWidget {
         Expanded(
           child: buildNavItem(
             context,
-            Icons.home,
-            "Inicio",
-            "/home",
+            Icons.check,
+            NamedRoute.inspectionCheckScreen,
+            NamedRoute.inspectionCheckScreen,
             0,
           ),
         ),
         Expanded(
           child: buildNavItem(
             context,
-            Icons.search,
-            "Buscar",
-            "/search",
+            Icons.image,
+            NamedRoute.inspectionImageScreen,
+            NamedRoute.inspectionImageScreen,
             1,
           ),
         ),
@@ -79,8 +79,8 @@ class MyCustomNavigationBar extends StatelessWidget {
           child: buildNavItem(
             context,
             Icons.person,
-            "Perfil",
-            "/profile",
+            NamedRoute.inspectionPersonScreen,
+            NamedRoute.inspectionPersonScreen,
             2,
           ),
         ),

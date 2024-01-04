@@ -10,16 +10,37 @@ import 'package:safecty/model/repository/client/network_client.dart';
 import 'package:safecty/model/repository/client/server_exception.dart';
 import 'package:safecty/model/repository/inspection_check/inspection_check.dart';
 import 'package:safecty/model/repository/model/parameter_inspecton.dart';
+import 'package:safecty/model/storage/local_storage.dart';
 
 class InspectionCheckRepositoryImpl extends InspectionCheckRepository {
   InspectionCheckRepositoryImpl({
     required endpoints,
+    required localStorage,
     required networkClient,
   })  : _endpoints = endpoints,
-        _networkClient = networkClient;
+        _networkClient = networkClient,
+        _localStorage = localStorage;
 
   final Endpoints _endpoints;
   final NetworkClient _networkClient;
+  final LocalStorage _localStorage;
+
+  @override
+  Future<Either<Failure, List<ParameterInspection>?>> getParameters(
+    String parameterId,
+  ) async {
+    try {
+      final listParameters = await _localStorage.getListParameters(parameterId);
+      return Right(listParameters);
+    } on AppException catch (ae) {
+      return Left(
+        Failure(
+          error: ae.error,
+          description: ae.message,
+        ),
+      );
+    }
+  }
 
   @override
   Future<Either<Failure, List<ParameterInspection>?>> getParameter(
@@ -53,6 +74,23 @@ class InspectionCheckRepositoryImpl extends InspectionCheckRepository {
       }
 
       throw const FormatException('Respuesta del servidor no es válida.');
+    } on AppException catch (ae) {
+      return Left(
+        Failure(
+          error: ae.error,
+          description: ae.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool?>> savedParameters(
+    List<ParameterInspection> listParameters,
+  ) async {
+    try {
+      final email = await _localStorage.storeListParameters(listParameters);
+      return Right(email);
     } on AppException catch (ae) {
       return Left(
         Failure(

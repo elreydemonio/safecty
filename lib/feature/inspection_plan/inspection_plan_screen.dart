@@ -6,7 +6,7 @@ import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart'
 import 'package:safecty/feature/inspection_plan/widget/button_text.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_tooltip.dart';
 import 'package:safecty/feature/inspection_plan/widget/card_inspection_plan.dart';
-import 'package:safecty/feature/inspection_plan/widget/drop_dow_inspection.dart';
+import 'package:safecty/widgets/drop_dow_inspection.dart';
 import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/dropdown_type.dart';
 import 'package:safecty/model/repository/model/gdp_data.dart';

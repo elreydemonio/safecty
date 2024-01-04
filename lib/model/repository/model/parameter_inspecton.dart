@@ -5,26 +5,26 @@ class ParameterInspection {
     required this.riskId,
     required this.parameters,
     this.imagePath,
-    required this.isCheckNo,
-    required this.isCheckYes,
+    this.isCheck,
     required this.parameterId,
     required this.descriptionParameter,
   });
 
-  factory ParameterInspection.fromMap(Map<String, dynamic> map) =>
-      ParameterInspection(
-        descriptionInspection:
-            map[_AttributeKeys.descriptionInspection].toString(),
-        riskId: int.parse(map[_AttributeKeys.riskId].toString()),
-        inspectionId: int.parse(map[_AttributeKeys.inspectionId].toString()),
-        parameterId: int.parse(map[_AttributeKeys.parameterId].toString()),
-        descriptionParameter:
-            map[_AttributeKeys.descriptionParameter].toString(),
-        imagePath: map[_AttributeKeys.imagePath].toString(),
-        parameters: map[_AttributeKeys.parameters] as bool? ?? false,
-        isCheckNo: int.parse(map[_AttributeKeys.isCheckNo].toString()),
-        isCheckYes: int.parse(map[_AttributeKeys.isCheckYes].toString()),
-      );
+  factory ParameterInspection.fromMap(Map<String, dynamic> map) {
+    return ParameterInspection(
+      descriptionInspection:
+          map[_AttributeKeys.descriptionInspection].toString(),
+      riskId: int.parse(map[_AttributeKeys.riskId].toString()),
+      inspectionId: int.parse(map[_AttributeKeys.inspectionId].toString()),
+      parameterId: int.parse(map[_AttributeKeys.parameterId].toString()),
+      descriptionParameter: map[_AttributeKeys.descriptionParameter].toString(),
+      imagePath: map[_AttributeKeys.imagePath].toString(),
+      parameters: map[_AttributeKeys.parameters] as bool? ?? false,
+      isCheck: map[_AttributeKeys.isCheck] != null
+          ? map[_AttributeKeys.isCheck] as bool? ?? false
+          : null,
+    );
+  }
 
   final int inspectionId;
   final int riskId;
@@ -33,8 +33,23 @@ class ParameterInspection {
   final String descriptionParameter;
   final String? imagePath;
   final bool parameters;
-  final int isCheckYes;
-  final int isCheckNo;
+  bool? isCheck;
+
+  static const storeName = 'parameters';
+
+  static const String id = 'parametersInspection';
+
+  static Map<String, dynamic> toMap(ParameterInspection inspection) =>
+      <String, dynamic>{
+        _AttributeKeys.inspectionId: inspection.inspectionId,
+        _AttributeKeys.descriptionInspection: inspection.descriptionInspection,
+        _AttributeKeys.riskId: inspection.riskId,
+        _AttributeKeys.parameters: inspection.parameters,
+        _AttributeKeys.parameterId: inspection.parameterId,
+        _AttributeKeys.descriptionParameter: inspection.descriptionParameter,
+        _AttributeKeys.imagePath: inspection.imagePath,
+        _AttributeKeys.isCheck: inspection.isCheck,
+      };
 }
 
 abstract class _AttributeKeys {
@@ -44,7 +59,6 @@ abstract class _AttributeKeys {
   static const String parameters = 'parametros_precumplidos';
   static const String parameterId = 'intIdParametro';
   static const String descriptionParameter = 'strDescripcionParametro';
-  static const String isCheckYes = 'Si';
-  static const String isCheckNo = 'No';
   static const String imagePath = 'rutaImagenParametro';
+  static const String isCheck = 'isCheck';
 }
