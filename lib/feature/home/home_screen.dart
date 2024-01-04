@@ -192,10 +192,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const SizedBox(width: Spacing.medium),
                             HomeCard(
-                              icon: Icons.collections_bookmark,
+                              icon: Icons.personal_injury_sharp,
                               onTap: () => Navigator.of(context)
                                   .pushNamed(NamedRoute.homeScreen),
-                              title: "Habilidades",
+                              title: "TAR",
                             ),
                           ],
                         )
