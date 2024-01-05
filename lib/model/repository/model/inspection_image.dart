@@ -7,8 +7,8 @@ class InspectionImage {
 
   static Map<String, dynamic> toMap(InspectionImage image) {
     return {
-      'description': image.description,
-      'filePath': image.file.path,
+      _AttributeKeys.description: image.description,
+      _AttributeKeys.filePath: image.file.path,
     };
   }
 

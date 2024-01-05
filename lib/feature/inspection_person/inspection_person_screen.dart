@@ -128,8 +128,8 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                           const SizedBox(width: Spacing.small),
                           Expanded(
                             child: DropDowInspection(
-                              label: 'text',
-                              hinText: 'ok',
+                              label: 'persona',
+                              hinText: 'Buscar persona',
                               data: value.personDropDownType,
                               value: valuePerson,
                               onChange: (selectedValue) {
@@ -163,6 +163,8 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                           ),
                           onDelete: () =>
                               setState(() => selectedPersons.removeAt(index)),
+                          onView: () => _viewSignature(
+                              context, selectedPersons[index], size),
                         );
                       },
                     ),
@@ -175,6 +177,61 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
         return LoadingWidget(
           height: size.height,
           width: size.width,
+        );
+      },
+    );
+  }
+
+  void _viewSignature(
+    BuildContext context,
+    InspectionPerson person,
+    Size size,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Firma'),
+          contentPadding: const EdgeInsets.all(Spacing.small),
+          content: SizedBox(
+            width: size.width * 0.6,
+            height: size.height * 0.55,
+            child: Column(
+              children: [
+                Container(
+                  width: size.width,
+                  height: size.height * 0.45,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: FileImage(person.file!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    MyElevatedButton(
+                      width: size.width * 0.6,
+                      height: 50.0,
+                      onPressed: () => Navigator.of(context).pop(),
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [Colors.orange[200]!, Colors.orange[800]!],
+                      ),
+                      child: const Text(
+                        'Salir',
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         );
       },
     );
@@ -230,6 +287,7 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                         File cachedFile =
                             await saveUint8ListToCache(data!, fileName);
                         savedSignaturePerson(person, cachedFile);
+                        Navigator.of(context).pop();
                       },
                       borderRadius: BorderRadius.circular(20),
                       gradient: LinearGradient(

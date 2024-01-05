@@ -29,8 +29,10 @@ class InspectionPerson {
         professionalSurname: map[_AttributeKeys.professionalSurname],
         identificationCard: map[_AttributeKeys.identificationCard].toString(),
         workPlace: map[_AttributeKeys.workPlace].toString(),
+        file: map[_AttributeKeys.signature] == null
+            ? null
+            : File(map[_AttributeKeys.signature] as String),
       );
-
   final int businessId;
   final int personId;
   final int typePersonId;
@@ -59,7 +61,9 @@ class InspectionPerson {
         _AttributeKeys.professionalSurname:
             inspectionPerson.professionalSurname,
         _AttributeKeys.workPlace: inspectionPerson.workPlace,
-        _AttributeKeys.identificationCard: inspectionPerson.identificationCard
+        _AttributeKeys.identificationCard: inspectionPerson.identificationCard,
+        _AttributeKeys.signature:
+            inspectionPerson.file == null ? null : inspectionPerson.file!.path,
       };
 }
 
@@ -74,4 +78,5 @@ abstract class _AttributeKeys {
   static const String workPlaceId = 'idCentroTrabajo';
   static const String workPlace = 'strCentroTrabajo';
   static const String positionId = 'intIdCargos';
+  static const String signature = 'signature';
 }

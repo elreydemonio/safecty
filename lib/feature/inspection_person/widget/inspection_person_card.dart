@@ -10,11 +10,13 @@ class InspectionPersonCard extends StatelessWidget {
     required this.onDelete,
     required this.isActive,
     required this.onEdit,
+    required this.onView,
   });
 
   final InspectionPerson inspectionPerson;
   final VoidCallback onDelete;
   final VoidCallback onEdit;
+  final VoidCallback onView;
   final bool isActive;
 
   @override
@@ -71,6 +73,14 @@ class InspectionPersonCard extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: Row(
                   children: [
+                    isActive
+                        ? inspectionPerson.file != null
+                            ? IconButton(
+                                icon: const Icon(Icons.image),
+                                onPressed: onView,
+                              )
+                            : const SizedBox()
+                        : const SizedBox(),
                     isActive
                         ? IconButton(
                             icon: const Icon(Icons.edit),
