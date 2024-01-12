@@ -59,6 +59,7 @@ class InspectionPersonViewModel
 
   Future<void> getPersonsSelect() async {
     setState(InspectionPersonViewState.loading);
+
     final response =
         await _inspectionPersonRepository.getPersons(InspectionPerson.id);
 
@@ -94,7 +95,6 @@ class InspectionPersonViewModel
   Future<void> getPerson() async {
     setState(InspectionPersonViewState.loading);
     WorkCenter? workCenter = await _secureStorage.getWorkCenter();
-
     if (workCenter == null) {
       setState(InspectionPersonViewState.error);
     }

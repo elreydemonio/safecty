@@ -229,6 +229,16 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `parámetros de inspecciones`
+  String get inspectionParameters {
+    return Intl.message(
+      'parámetros de inspecciones',
+      name: 'inspectionParameters',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "infoProfile":
             MessageLookupByLibrary.simpleMessage("Informacion de la cuenta"),
         "inspection": MessageLookupByLibrary.simpleMessage("Inspection"),
+        "inspectionParameters":
+            MessageLookupByLibrary.simpleMessage("parámetros de inspecciones"),
         "inspectionPlan":
             MessageLookupByLibrary.simpleMessage("Plan de inspecciones "),
         "newInspection":

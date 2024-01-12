@@ -2,6 +2,7 @@ import 'package:safecty/core/mvvm/base_view_model.dart';
 import 'package:safecty/model/repository/inspection_check/inspection_check.dart';
 import 'package:safecty/model/repository/model/area.dart';
 import 'package:safecty/model/repository/model/inspection.dart';
+import 'package:safecty/model/repository/model/inspection_person.dart';
 import 'package:safecty/model/repository/model/parameter_inspecton.dart';
 import 'package:safecty/model/repository/model/risk.dart';
 import 'package:safecty/model/storage/secure_storage.dart';
@@ -54,18 +55,29 @@ class InspectionCheckViewModel extends BaseViewModel<InspectionCheckViewState> {
     responseLocal.fold(
       (failure) => setState(InspectionCheckViewState.error),
       (List<ParameterInspection>? listParameters) async {
-        if (listParameters != null || listParameters!.isEmpty) {
+        if (listParameters != null && listParameters.isNotEmpty) {
           if (listParameters[0].inspectionId == _inspection!.inspectionId) {
             _listParameters = listParameters;
             setState(InspectionCheckViewState.completed);
           } else {
-            final responseList = await _getParameterUrl();
-            if (responseList == null) {
-              setState(InspectionCheckViewState.error);
-            }
-            _listParameters = responseList;
-            _isCheckAll(inspection!.parameters);
-            setState(InspectionCheckViewState.completed);
+            final responseBoolean = await _inspectionCheckRepository
+                .deletePerson(InspectionPerson.id);
+            responseBoolean.fold(
+              (failure) => setState(InspectionCheckViewState.error),
+              (bool? bolean) async {
+                if (bolean!) {
+                  final responseList = await _getParameterUrl();
+                  if (responseList == null) {
+                    setState(InspectionCheckViewState.error);
+                  }
+                  _listParameters = responseList;
+                  _isCheckAll(inspection!.parameters);
+                  setState(InspectionCheckViewState.completed);
+                } else {
+                  setState(InspectionCheckViewState.error);
+                }
+              },
+            );
           }
         } else {
           final responseList = await _getParameterUrl();

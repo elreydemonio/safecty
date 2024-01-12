@@ -51,8 +51,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             (_) {
               final viewModel = context.read<LoginViewModel>();
               viewModel.init();
-              Navigator.of(context)
-                  .pushReplacementNamed(NamedRoute.loginScreen);
+              Navigator.of(context).pushReplacementNamed(
+                NamedRoute.loginScreen,
+                arguments: {"userInfo": "delete"},
+              );
             },
           );
         }

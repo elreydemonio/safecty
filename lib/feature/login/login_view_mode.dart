@@ -39,14 +39,18 @@ class LoginViewModel extends BaseViewModel<LoginViewState> {
     );
   }
 
-  Future<void> validateGetUser() async {
+  Future<void> validateGetUser(String? logout) async {
     setState(LoginViewState.loading);
     try {
-      User? user = await _secureStorage.getUser();
-      if (user == null) {
-        setState(LoginViewState.initial);
+      if (logout == null) {
+        User? user = await _secureStorage.getUser();
+        if (user == null) {
+          setState(LoginViewState.initial);
+        } else {
+          setState(LoginViewState.data);
+        }
       } else {
-        setState(LoginViewState.data);
+        setState(LoginViewState.initial);
       }
     } catch (e) {
       setState(LoginViewState.error);

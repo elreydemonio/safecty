@@ -213,7 +213,7 @@ class SecureStorageImpl implements SecureStorage {
 
   Future<void> _reset() async {
     try {
-      await _flutterSecureStorage.deleteAll();
+      await _flutterSecureStorage.delete(key: _AttributesKeys.userData);
     } catch (e, stack) {
       _logger.severe('Exception clearing secure storage', e, stack);
     }

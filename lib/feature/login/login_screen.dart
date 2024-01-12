@@ -11,7 +11,12 @@ import 'package:safecty/widgets/snackbar.dart';
 import 'package:safecty/widgets/loading_widget.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({
+    super.key,
+    this.logout,
+  });
+
+  final String? logout;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -28,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final viewModel = context.read<LoginViewModel>();
     SchedulerBinding.instance.addPostFrameCallback(
       (_) async {
-        await viewModel.validateGetUser();
+        await viewModel.validateGetUser(widget.logout);
       },
     );
   }

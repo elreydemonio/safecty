@@ -110,6 +110,9 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
     await _secureStorage.storeInspection(inspection);
     await _secureStorage.storeArea(area);
     await _secureStorage.storeRisk(riskFirst);
+    inspectionValue = null;
+    risk = null;
+    valueZone = null;
     setState(InspectionPlanViewState.completedStore);
   }
 
@@ -136,6 +139,12 @@ class InspectionPlanViewModel extends BaseViewModel<InspectionPlanViewState> {
         setState(InspectionPlanViewState.completed);
       },
     );
+  }
+
+  void setConfig(String? riskValue, String? inspection) {
+    risk = riskValue;
+    inspectionValue = inspection;
+    setState(InspectionPlanViewState.completed);
   }
 
   Future<void> getInspectionList(int riskId) async {

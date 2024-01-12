@@ -63,7 +63,9 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
         case NamedRoute.loginScreen:
           route = SlidePageRoute(
             offset: slide.slideSide,
-            page: const LoginScreen(),
+            page: LoginScreen(
+              logout: argumentsMap == null ? null : ['userInfo'].toString(),
+            ),
             routeName: routeSettings.name,
           );
           break;

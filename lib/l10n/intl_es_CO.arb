@@ -16,5 +16,6 @@
     "configureInspection": "Configurar inspección",
     "newInspection": "nueva inspección",
     "readingQr": "Leer qr",
-    "certificate": "certificado"
+    "certificate": "certificado",
+    "inspectionParameters": "parámetros de inspecciones"
 }

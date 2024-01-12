@@ -100,4 +100,19 @@ class InspectionCheckRepositoryImpl extends InspectionCheckRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, bool?>> deletePerson(String personId) async {
+    try {
+      final delete = await _localStorage.deletePersons(personId);
+      return Right(delete);
+    } on AppException catch (ae) {
+      return Left(
+        Failure(
+          error: ae.error,
+          description: ae.message,
+        ),
+      );
+    }
+  }
 }
