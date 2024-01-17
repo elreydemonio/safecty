@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -7,14 +8,15 @@ import 'package:safecty/feature/inspection_plan/widget/aler_dialog_plan.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_text.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_tooltip.dart';
 import 'package:safecty/feature/inspection_plan/widget/card_inspection_plan.dart';
+import 'package:safecty/feature/inspection_plan/widget/indicator.dart';
 import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/dropdown_type.dart';
 import 'package:safecty/model/repository/model/gdp_data.dart';
 import 'package:safecty/theme/app_colors.dart';
+import 'package:safecty/theme/app_imagen.dart';
 import 'package:safecty/theme/spacing.dart';
 import 'package:safecty/widgets/loading_widget.dart';
 import 'package:safecty/widgets/snackbar.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class InspectionPlanScreen extends StatefulWidget {
   const InspectionPlanScreen({super.key});
@@ -27,6 +29,7 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
     with SingleTickerProviderStateMixin {
   final List<GDPDATA> _chartData = [];
   bool _isExpanded = false;
+  bool _isData = true;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   double convert(double valor, double maximum) {
@@ -50,6 +53,11 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
         await viewModel.getArea();
         await viewModel.getRisk();
         if (viewModel.state == InspectionPlanViewState.completed) {
+          if (viewModel.inspectionsPlanPending!.charInspection == null) {
+            _isData = false;
+          } else {
+            _isData = true;
+          }
           _chartData.add(
             GDPDATA(
               "Ejecutando",
@@ -103,6 +111,21 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
         curve: Curves.easeInOut,
       ),
     );
+  }
+
+  Color _getColorForSection(String section) {
+    switch (section) {
+      case "Ejecutando":
+        return const Color(0xFF68c2ec);
+      case "Planeado":
+        return const Color(0xFF1cd16d);
+      case "Pediente":
+        return const Color(0xFFffd600);
+      case "Avance":
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 
   @override
@@ -169,15 +192,19 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                     right: Spacing.medium,
                   ),
                   width: size.width,
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: AppColors.black,
-                        size: 30.0,
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: AppColors.black,
+                          size: 30.0,
+                        ),
+                        onPressed: () => Navigator.of(context)
+                            .pushNamed(NamedRoute.homeScreen),
                       ),
-                      SizedBox(width: Spacing.medium),
-                      Text(
+                      const SizedBox(width: Spacing.medium),
+                      const Text(
                         "Ousafety app",
                         style: TextStyle(
                           color: AppColors.white,
@@ -198,31 +225,62 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      Container(
-                        margin:
-                            const EdgeInsets.only(right: Spacing.xLarge + 45.0),
-                        child: SfCircularChart(
-                          legend: const Legend(
-                            isVisible: true,
-                            overflowMode: LegendItemOverflowMode.wrap,
-                            position: LegendPosition.top,
-                          ),
-                          tooltipBehavior: TooltipBehavior(
-                            enable: true,
-                          ),
-                          series: <CircularSeries>[
-                            RadialBarSeries<GDPDATA, String>(
-                              dataSource: _chartData,
-                              xValueMapper: (GDPDATA data, _) => data.content,
-                              yValueMapper: (GDPDATA data, _) => data.gdp,
-                              dataLabelSettings: const DataLabelSettings(
-                                isVisible: true,
+                      _isData
+                          ? Container(
+                              margin: const EdgeInsets.only(
+                                right: Spacing.xLarge + 45.0,
+                                left: Spacing.medium,
                               ),
-                              enableTooltip: true,
+                              child: Column(
+                                children: [
+                                  Wrap(
+                                    direction: Axis.horizontal,
+                                    spacing: 8.0,
+                                    runSpacing: 4.0,
+                                    children: _chartData.map((data) {
+                                      return Indicator(
+                                        color:
+                                            _getColorForSection(data.content),
+                                        text: '${data.content} - ${data.gdp}%',
+                                        isSquare: true,
+                                      );
+                                    }).toList(),
+                                  ),
+                                  Expanded(
+                                    child: PieChart(
+                                      PieChartData(
+                                        sections: _chartData.map((data) {
+                                          return PieChartSectionData(
+                                            color: _getColorForSection(
+                                                data.content),
+                                            value: data.gdp.toDouble(),
+                                            title:
+                                                '${data.content}\n${data.gdp}%',
+                                            radius: 50.0,
+                                            titleStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w900,
+                                              color: AppColors.whiteBone,
+                                            ),
+                                          );
+                                        }).toList(),
+                                        borderData: FlBorderData(show: false),
+                                        centerSpaceRadius: 40.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.all(Spacing.medium),
+                              child: Center(
+                                child: Image.asset(
+                                  AppImages.noData,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
                       Positioned(
                         right: Spacing.medium,
                         child: Tooltip(
@@ -319,14 +377,6 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                       itemBuilder: (context, index) {
                         return CardInspectionPlan(
                           onTap: () {
-                            value.setConfig(
-                              value.inspectionsPlanPending!
-                                  .listInspection[index].riskId
-                                  .toString(),
-                              value.inspectionsPlanPending!
-                                  .listInspection[index].inspectionId
-                                  .toString(),
-                            );
                             value.getInspectionList(value
                                 .inspectionsPlanPending!
                                 .listInspection[index]
@@ -336,6 +386,9 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                               size: size,
                               riskId: value.inspectionsPlanPending!
                                   .listInspection[index].riskId
+                                  .toString(),
+                              inspectionId: value.inspectionsPlanPending!
+                                  .listInspection[index].inspectionId
                                   .toString(),
                             );
                           },
@@ -372,6 +425,7 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
     required BuildContext context,
     required Size size,
     String? riskId,
+    String? inspectionId,
   }) {
     showDialog(
       context: context,
@@ -379,6 +433,7 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
         return AlertDialogPlan(
           size: size,
           riskId: riskId,
+          inspectionId: inspectionId,
         );
       },
     ).then((value) {

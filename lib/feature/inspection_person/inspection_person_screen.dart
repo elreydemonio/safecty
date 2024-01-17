@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_person/widget/inspection_person_card.dart';
@@ -167,6 +168,23 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                               context, selectedPersons[index], size),
                         );
                       },
+                    ),
+                  ),
+                  MyElevatedButton(
+                    width: size.width,
+                    height: 50.0,
+                    onPressed: () => Navigator.of(context)
+                        .pushReplacementNamed(NamedRoute.inspectionSendScreen),
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      colors: [Colors.orange[200]!, Colors.orange[800]!],
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context).send,
+                      style: const TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
                 ],

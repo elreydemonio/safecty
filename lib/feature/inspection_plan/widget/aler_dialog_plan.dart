@@ -12,10 +12,12 @@ class AlertDialogPlan extends StatefulWidget {
     super.key,
     required this.size,
     this.riskId,
+    this.inspectionId,
   });
 
   final Size size;
   final String? riskId;
+  final String? inspectionId;
 
   @override
   State<AlertDialogPlan> createState() => _AlertDialogPlanState();
@@ -28,16 +30,11 @@ class _AlertDialogPlanState extends State<AlertDialogPlan> {
   Widget build(BuildContext context) {
     return Consumer<InspectionPlanViewModel>(
       builder: (context, value, child) {
-        void updateValuesBeforeClose() {
-          value.risk = null;
-          value.inspectionValue = null;
-        }
-
         return AlertDialog(
           backgroundColor: AppColors.whiteBone,
           content: SizedBox(
             width: widget.size.width * 0.6,
-            height: value.inspectionValue == null
+            height: widget.inspectionId == null
                 ? widget.size.height * 0.55
                 : widget.size.height * 0.3,
             child: SingleChildScrollView(
@@ -87,12 +84,12 @@ class _AlertDialogPlanState extends State<AlertDialogPlan> {
                             },
                           )
                         : const SizedBox(),
-                    value.inspectionValue == null
+                    widget.inspectionId == null
                         ? const SizedBox(height: Spacing.medium)
                         : const SizedBox(),
                     value.inspectionList == null
                         ? const SizedBox()
-                        : value.inspectionValue == null
+                        : widget.inspectionId == null
                             ? DropDowInspection(
                                 label: AppLocalizations.of(context).inspection,
                                 hinText: AppLocalizations.of(context)

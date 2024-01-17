@@ -25,6 +25,21 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
   int _selectedIndex = 0;
   List<ParameterInspection>? listParameters;
 
+  DecorationImage _buildDecorationImage(String? imagePath) {
+    if (imagePath != null) {
+      return DecorationImage(
+        image:
+            NetworkImage('http://www.out-safety.com/web/MImagenes/$imagePath'),
+        fit: BoxFit.cover,
+      );
+    } else {
+      return const DecorationImage(
+        image: AssetImage(AppImages.defaultImage),
+        fit: BoxFit.cover,
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -83,11 +98,8 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                 Container(
                   height: size.height * 0.2,
                   width: size.width,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(AppImages.defaultImage),
-                      fit: BoxFit.cover,
-                    ),
+                  decoration: BoxDecoration(
+                    image: _buildDecorationImage(value.inspection?.imagePath),
                   ),
                 ),
                 Container(
