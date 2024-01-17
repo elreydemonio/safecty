@@ -80,7 +80,7 @@ class LocalStorageImpl implements LocalStorage {
   Future<bool> storeListImages(List<InspectionImage> listImage) async {
     try {
       final InspectionImageList imageList = InspectionImageList(
-        listId: listImage[0].id,
+        listId: InspectionImage.id,
         images: listImage,
       );
 

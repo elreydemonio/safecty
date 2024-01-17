@@ -14,9 +14,7 @@ class InspectionImage {
 
   static const storeName = 'images';
 
-  static const String _id = 'InspectionImages';
-
-  String get id => _id;
+  static const String id = 'InspectionImages';
 
   static InspectionImage fromMap(Map<String, dynamic> map) {
     return InspectionImage(

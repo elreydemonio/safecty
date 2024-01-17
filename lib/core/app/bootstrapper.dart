@@ -13,6 +13,7 @@ import 'package:safecty/feature/inspection_check/inspection_check_view_model.dar
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
+import 'package:safecty/feature/inspection_send/inspection_send_view_model.dart';
 import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/feature/profile/profile_view_model.dart';
 import 'package:safecty/feature/work_center/work_center_view_model.dart';
@@ -20,6 +21,7 @@ import 'package:safecty/model/repository/inspection_check/inspection_check_impl.
 import 'package:safecty/model/repository/inspection_image/inspection_image_impl.dart';
 import 'package:safecty/model/repository/inspection_person/inspection_person_impl.dart';
 import 'package:safecty/model/repository/inspection_plan/inspection_plan_impl.dart';
+import 'package:safecty/model/repository/inspection_send/inspection_send_impl.dart';
 import 'package:safecty/model/repository/login/login_repository.dart';
 import 'package:safecty/model/repository/work_center/work_center_impl.dart';
 import 'package:safecty/model/storage/local_storage.dart';
@@ -64,6 +66,8 @@ abstract class Bootstrapper {
 
   InspectionPersonViewModel get inspectionPersonViewModel;
 
+  InspectionSendViewModel get inspectionSendViewModel;
+
   LoginViewModel get loginViewModel;
 
   ProfileViewModel get profileViewModel;
@@ -104,6 +108,7 @@ class _BaseBootstrapper implements Bootstrapper {
   late NetworkLogger _networkLogger;
   late SecureStorage _secureStorage;
   late HomeViewModel _homeViewModel;
+  late InspectionSendViewModel _inspectionSendViewModel;
   late LoginViewModel _loginViewModel;
   late InspectionImageViewModel _inspectionImageViewModel;
   late InspectionPersonViewModel _inspectionPersonViewModel;
@@ -160,6 +165,27 @@ class _BaseBootstrapper implements Bootstrapper {
         inspectionImageRepository: InspectionImageRepositoryImpl(
           localStorage: _localStorage,
         ),
+      );
+
+      _inspectionSendViewModel = InspectionSendViewModel(
+        inspectionSendRepository: InspectionSendRepositoryImpl(
+          endpoints: _config.endpoints,
+          networkClient: _networkClient,
+        ),
+        inspectionImageRepository: InspectionImageRepositoryImpl(
+          localStorage: _localStorage,
+        ),
+        inspectionCheckRepository: InspectionCheckRepositoryImpl(
+          endpoints: _config.endpoints,
+          networkClient: _networkClient,
+          localStorage: _localStorage,
+        ),
+        inspectionPersonRepository: InspectionPersonRepositoryImpl(
+          localStorage: _localStorage,
+          endpoints: _config.endpoints,
+          networkClient: _networkClient,
+        ),
+        secureStorage: _secureStorage,
       );
 
       _inspectionPersonViewModel = InspectionPersonViewModel(
@@ -243,6 +269,10 @@ class _BaseBootstrapper implements Bootstrapper {
   @override
   InspectionCheckViewModel get inspectionCheckViewModel =>
       _inspectionCheckViewModel;
+
+  @override
+  InspectionSendViewModel get inspectionSendViewModel =>
+      _inspectionSendViewModel;
 
   @override
   InspectionPlanViewModel get inspectionPlanViewModel =>
