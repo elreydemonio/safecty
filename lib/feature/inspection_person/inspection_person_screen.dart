@@ -173,8 +173,11 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                   MyElevatedButton(
                     width: size.width,
                     height: 50.0,
-                    onPressed: () => Navigator.of(context)
-                        .pushReplacementNamed(NamedRoute.inspectionSendScreen),
+                    onPressed: () async {
+                      await value.savedPerson(selectedPersons);
+                      Navigator.of(context).pushReplacementNamed(
+                          NamedRoute.inspectionSendScreen);
+                    },
                     borderRadius: BorderRadius.circular(20),
                     gradient: LinearGradient(
                       colors: [Colors.orange[200]!, Colors.orange[800]!],

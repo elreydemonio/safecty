@@ -33,46 +33,70 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
     return Consumer<InspectionSendViewModel>(
       builder: (context, value, child) {
         if (value.state == InspectionSendViewState.error) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Error'),
-                  content:
-                      const Text('Ocurrió un error al enviar la inspección.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
-          });
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Error',
+                description: 'Ocurrió un error al enviar la inspección.',
+                nameRoute: NamedRoute.inspectionPersonScreen,
+              );
+            },
+          );
+        }
+        if (value.state == InspectionSendViewState.incompletePerson) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Incompleto',
+                description: 'No hay personas selecionadas.',
+                nameRoute: NamedRoute.inspectionPersonScreen,
+              );
+            },
+          );
+        }
+        if (value.state == InspectionSendViewState.incompleteCheck) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Incompleto',
+                description: 'No hay informacion sobre los parametros ',
+                nameRoute: NamedRoute.inspectionPersonScreen,
+              );
+            },
+          );
+        }
+        if (value.state == InspectionSendViewState.incompleteImage) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Incompleto',
+                description: 'No hay informacion sobre las imagenes',
+                nameRoute: NamedRoute.inspectionImageScreen,
+              );
+            },
+          );
         }
         if (value.state == InspectionSendViewState.completed) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Éxito'),
-                  content: const Text('La inspección se envió exitosamente.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushReplacementNamed(NamedRoute.homeScreen),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
-          });
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Éxito',
+                description: 'La inspección se envió exitosamente.',
+                nameRoute: NamedRoute.homeScreen,
+              );
+            },
+          );
+        }
+        if (value.state == InspectionSendViewState.incomplete) {
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              showDialogSend(
+                title: 'Incompleto',
+                description: 'Falta informacion en la inspeccion.',
+                nameRoute: NamedRoute.inspectionPersonScreen,
+              );
+            },
+          );
         }
         return body(size);
       },
@@ -103,6 +127,28 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> showDialogSend(
+      {required String title,
+      required String description,
+      required String nameRoute}) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(description),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>
+                  Navigator.of(context).pushReplacementNamed(nameRoute),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

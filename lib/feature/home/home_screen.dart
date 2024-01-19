@@ -78,11 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey,
-                              image: value.user!.profilePicture == null
+                              image: value.user!.profilePicture != null
                                   ? DecorationImage(
                                       image: MemoryImage(
-                                        base64.decode(
-                                            value.user!.profilePicture!),
+                                        base64Decode(
+                                            value.user!.profilePicture == null
+                                                ? ""
+                                                : value.user!.profilePicture!),
                                       ),
                                       fit: BoxFit.cover,
                                     )

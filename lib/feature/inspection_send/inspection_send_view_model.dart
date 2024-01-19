@@ -18,6 +18,10 @@ enum InspectionSendViewState {
   error,
   initial,
   loading,
+  incomplete,
+  incompletePerson,
+  incompleteImage,
+  incompleteCheck,
 }
 
 class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
@@ -56,15 +60,31 @@ class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
         user == null ||
         listPerson == null ||
         workCenter == null) {
-      setState(InspectionSendViewState.error);
+      setState(InspectionSendViewState.incomplete);
+      return;
+    }
+
+    if (listImage.isEmpty) {
+      setState(InspectionSendViewState.incompleteImage);
+      return;
+    }
+
+    if (listPerson.isEmpty) {
+      setState(InspectionSendViewState.incompletePerson);
+      return;
+    }
+
+    if (listParameters.isEmpty) {
+      setState(InspectionSendViewState.incompleteCheck);
+      return;
     }
 
     final response = await _inspectionSendRepository.savedInspection(
-      inspection: inspection!,
-      listParameters: listParameters!,
-      area: area!,
-      user: user!,
-      listEvidence: listImage!,
+      inspection: inspection,
+      listParameters: listParameters,
+      area: area,
+      user: user,
+      listEvidence: listImage,
     );
 
     response.fold(
@@ -74,10 +94,10 @@ class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
           setState(InspectionSendViewState.error);
         }
         _sendSignatures(
-          listPerson: listPerson!,
+          listPerson: listPerson,
           listImage: listImage,
           inspectionIdField: int.parse(inspectionId!.replaceAll('"', '')),
-          workCenterId: workCenter!.companyId,
+          workCenterId: workCenter.companyId,
         );
       },
     );
