@@ -30,19 +30,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Set up inspection"),
         "deleteLocalDate":
             MessageLookupByLibrary.simpleMessage("All local data is deleted"),
+        "exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "hello": MessageLookupByLibrary.simpleMessage("hello"),
         "infoProfile":
             MessageLookupByLibrary.simpleMessage("Account information"),
         "inspection": MessageLookupByLibrary.simpleMessage("Inspection"),
         "inspectionParameters":
-            MessageLookupByLibrary.simpleMessage("inspection parameters"),
+            MessageLookupByLibrary.simpleMessage("Inspection parameters"),
         "inspectionPlan":
-            MessageLookupByLibrary.simpleMessage("inspection plan"),
+            MessageLookupByLibrary.simpleMessage("Inspection plan"),
         "newInspection": MessageLookupByLibrary.simpleMessage("New inspection"),
         "readingQr": MessageLookupByLibrary.simpleMessage("Reading qr"),
         "risk": MessageLookupByLibrary.simpleMessage("Risk"),
+        "select": MessageLookupByLibrary.simpleMessage("Select"),
         "selectInspection":
             MessageLookupByLibrary.simpleMessage("Select inspection"),
+        "selectPerson": MessageLookupByLibrary.simpleMessage("Select person"),
         "selectRisk": MessageLookupByLibrary.simpleMessage("Select risk"),
         "selectZone": MessageLookupByLibrary.simpleMessage("Select zone"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),

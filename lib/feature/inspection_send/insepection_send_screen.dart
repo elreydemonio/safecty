@@ -3,6 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:safecty/core/navigation/named_route.dart';
+import 'package:safecty/feature/home/home_view_model.dart';
+import 'package:safecty/feature/inspection_check/inspection_check_view_model.dart';
+import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
+import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_send/inspection_send_view_model.dart';
 import 'package:safecty/theme/app_animation.dart';
 import 'package:safecty/theme/app_colors.dart';
@@ -38,7 +42,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Error',
                 description: 'Ocurrió un error al enviar la inspección.',
-                nameRoute: NamedRoute.inspectionPersonScreen,
+                onPressed: () {
+                  final viewModel = context.read<InspectionPersonViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.inspectionPersonScreen);
+                },
               );
             },
           );
@@ -49,7 +58,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Incompleto',
                 description: 'No hay personas selecionadas.',
-                nameRoute: NamedRoute.inspectionPersonScreen,
+                onPressed: () {
+                  final viewModel = context.read<InspectionPersonViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.inspectionPersonScreen);
+                },
               );
             },
           );
@@ -60,7 +74,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Incompleto',
                 description: 'No hay informacion sobre los parametros ',
-                nameRoute: NamedRoute.inspectionPersonScreen,
+                onPressed: () {
+                  final viewModel = context.read<InspectionCheckViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.inspectionCheckScreen);
+                },
               );
             },
           );
@@ -71,7 +90,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Incompleto',
                 description: 'No hay informacion sobre las imagenes',
-                nameRoute: NamedRoute.inspectionImageScreen,
+                onPressed: () {
+                  final viewModel = context.read<InspectionImageViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.inspectionImageScreen);
+                },
               );
             },
           );
@@ -82,7 +106,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Éxito',
                 description: 'La inspección se envió exitosamente.',
-                nameRoute: NamedRoute.homeScreen,
+                onPressed: () {
+                  final viewModel = context.read<HomeViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.homeScreen);
+                },
               );
             },
           );
@@ -93,7 +122,12 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
               showDialogSend(
                 title: 'Incompleto',
                 description: 'Falta informacion en la inspeccion.',
-                nameRoute: NamedRoute.inspectionPersonScreen,
+                onPressed: () {
+                  final viewModel = context.read<InspectionPersonViewModel>();
+                  viewModel.init();
+                  Navigator.of(context)
+                      .pushReplacementNamed(NamedRoute.inspectionPersonScreen);
+                },
               );
             },
           );
@@ -130,10 +164,11 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
     );
   }
 
-  Future<dynamic> showDialogSend(
-      {required String title,
-      required String description,
-      required String nameRoute}) {
+  Future<dynamic> showDialogSend({
+    required String title,
+    required String description,
+    required VoidCallback onPressed,
+  }) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -142,8 +177,7 @@ class _InspectionSendScreenState extends State<InspectionSendScreen> {
           content: Text(description),
           actions: <Widget>[
             TextButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacementNamed(nameRoute),
+              onPressed: onPressed,
               child: const Text('OK'),
             ),
           ],

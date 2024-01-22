@@ -171,6 +171,7 @@ class _BaseBootstrapper implements Bootstrapper {
         inspectionSendRepository: InspectionSendRepositoryImpl(
           endpoints: _config.endpoints,
           networkClient: _networkClient,
+          localStorage: _localStorage,
         ),
         inspectionImageRepository: InspectionImageRepositoryImpl(
           localStorage: _localStorage,

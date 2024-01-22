@@ -9,15 +9,16 @@ import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_person/widget/inspection_person_card.dart';
+import 'package:safecty/feature/inspection_send/inspection_send_view_model.dart';
 import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/inspection_person.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/spacing.dart';
 import 'package:safecty/widgets/color_button.dart';
-import 'package:safecty/widgets/drop_dow_inspection.dart';
 import 'package:safecty/widgets/loading_widget.dart';
 import 'package:safecty/widgets/scafold_widget.dart';
 import 'package:safecty/widgets/snackbar.dart';
+import 'package:searchfield/searchfield.dart';
 import 'package:signature/signature.dart';
 
 class InspectionPersonScreen extends StatefulWidget {
@@ -128,21 +129,45 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                           ),
                           const SizedBox(width: Spacing.small),
                           Expanded(
-                            child: DropDowInspection(
-                              label: 'persona',
-                              hinText: 'Buscar persona',
-                              data: value.personDropDownType,
-                              value: valuePerson,
-                              onChange: (selectedValue) {
+                            child: SearchField(
+                              onSuggestionTap: (p0) {
                                 final selectedPerson = value.listPerson!
                                     .firstWhere((person) =>
-                                        person.personId.toString() ==
-                                        selectedValue);
+                                        person.personId.toString() == p0.item);
                                 setState(() {
                                   selectedPersons.add(selectedPerson);
-                                  valuePerson = selectedValue;
+                                  valuePerson = p0.searchKey;
                                 });
                               },
+                              suggestions: value.listPerson!
+                                  .map(
+                                    (e) => SearchFieldListItem<String>(
+                                        '${e.professionalName} ${e.professionalSurname}',
+                                        item: e.personId.toString(),
+                                        child: Text(
+                                          '${e.professionalName} ${e.professionalSurname}',
+                                        )),
+                                  )
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              textInputAction: TextInputAction.next,
+                              hint: AppLocalizations.of(context).selectPerson,
+                              searchStyle: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              searchInputDecoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black.withOpacity(0.8),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red),
+                                ),
+                              ),
+                              maxSuggestionsInViewPort: 6,
+                              itemHeight: 50,
                             ),
                           ),
                           const SizedBox(width: Spacing.small),
@@ -175,6 +200,8 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                     height: 50.0,
                     onPressed: () async {
                       await value.savedPerson(selectedPersons);
+                      final viewModel = context.read<InspectionSendViewModel>();
+                      viewModel.init();
                       Navigator.of(context).pushReplacementNamed(
                           NamedRoute.inspectionSendScreen);
                     },
@@ -240,9 +267,9 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                       gradient: LinearGradient(
                         colors: [Colors.orange[200]!, Colors.orange[800]!],
                       ),
-                      child: const Text(
-                        'Salir',
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context).exit,
+                        style: const TextStyle(
                           color: AppColors.black,
                           fontSize: 14.0,
                         ),

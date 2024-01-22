@@ -25,25 +25,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "ChangeWorkCenter":
             MessageLookupByLibrary.simpleMessage("Cambiar centro de trabajo"),
         "Zone": MessageLookupByLibrary.simpleMessage("Zona"),
-        "certificate": MessageLookupByLibrary.simpleMessage("certificado"),
+        "certificate": MessageLookupByLibrary.simpleMessage("Certificado"),
         "configureInspection":
             MessageLookupByLibrary.simpleMessage("Configurar inspección"),
         "deleteLocalDate": MessageLookupByLibrary.simpleMessage(
             "Se elimina todo los datos locales"),
+        "exit": MessageLookupByLibrary.simpleMessage("Salir"),
         "hello": MessageLookupByLibrary.simpleMessage("hola"),
         "infoProfile":
             MessageLookupByLibrary.simpleMessage("Informacion de la cuenta"),
         "inspection": MessageLookupByLibrary.simpleMessage("Inspection"),
         "inspectionParameters":
-            MessageLookupByLibrary.simpleMessage("parámetros de inspecciones"),
+            MessageLookupByLibrary.simpleMessage("Parámetros de inspecciones"),
         "inspectionPlan":
             MessageLookupByLibrary.simpleMessage("Plan de inspecciones "),
         "newInspection":
-            MessageLookupByLibrary.simpleMessage("nueva inspección"),
+            MessageLookupByLibrary.simpleMessage("Nueva inspección"),
         "readingQr": MessageLookupByLibrary.simpleMessage("Leer qr"),
         "risk": MessageLookupByLibrary.simpleMessage("Riesgo"),
+        "select": MessageLookupByLibrary.simpleMessage("Selecionar"),
         "selectInspection":
             MessageLookupByLibrary.simpleMessage("Elegir inspection"),
+        "selectPerson":
+            MessageLookupByLibrary.simpleMessage("Selecionar la persona"),
         "selectRisk": MessageLookupByLibrary.simpleMessage("Elegir riesgo"),
         "selectZone": MessageLookupByLibrary.simpleMessage("Elegir zona"),
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),

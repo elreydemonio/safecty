@@ -1,5 +1,5 @@
 {
-    "inspectionPlan": "inspection plan",
+    "inspectionPlan": "Inspection plan",
     "hello": "hello",
     "infoProfile": "Account information",
     "workCenters": "Work Center",
@@ -17,5 +17,8 @@
     "newInspection": "New inspection",
     "readingQr": "Reading qr",
     "certificate": "Certificate",
-    "inspectionParameters": "inspection parameters"
+    "inspectionParameters": "Inspection parameters",
+    "select": "Select",
+    "selectPerson": "Select person",
+    "exit": "Exit"
 }

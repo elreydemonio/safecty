@@ -5,7 +5,7 @@ import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/spacing.dart';
 import 'package:safecty/widgets/color_button.dart';
-import 'package:safecty/widgets/drop_dow_inspection.dart';
+import 'package:safecty/widgets/seacrh_drowp.dart';
 
 class AlertDialogPlan extends StatefulWidget {
   const AlertDialogPlan({
@@ -53,14 +53,14 @@ class _AlertDialogPlanState extends State<AlertDialogPlan> {
                       ),
                     ),
                     const SizedBox(height: Spacing.medium),
-                    DropDowInspection(
+                    SearchDrown(
                       label: AppLocalizations.of(context).Zone,
                       hinText: AppLocalizations.of(context).selectZone,
                       data: value.areaList!,
                       value: value.valueZone,
-                      onChange: (newValue) {
+                      onChange: (p0) {
                         setState(() {
-                          value.valueZone = newValue;
+                          value.valueZone = p0.item;
                         });
                       },
                     ),
@@ -68,19 +68,18 @@ class _AlertDialogPlanState extends State<AlertDialogPlan> {
                         ? const SizedBox(height: Spacing.medium)
                         : const SizedBox(),
                     widget.riskId == null
-                        ? DropDowInspection(
+                        ? SearchDrown(
                             label: AppLocalizations.of(context).risk,
                             hinText: AppLocalizations.of(context).selectRisk,
                             data: value.riskList!,
                             value: value.risk,
-                            onChange: (risk) async {
+                            onChange: (p0) async {
                               setState(() {
-                                value.risk = risk;
+                                value.risk = p0.item;
                               });
 
-                              if (risk != null) {
-                                await value.getInspectionList(int.parse(risk));
-                              }
+                              await value
+                                  .getInspectionList(int.parse(p0.item!));
                             },
                           )
                         : const SizedBox(),
@@ -90,15 +89,15 @@ class _AlertDialogPlanState extends State<AlertDialogPlan> {
                     value.inspectionList == null
                         ? const SizedBox()
                         : widget.inspectionId == null
-                            ? DropDowInspection(
+                            ? SearchDrown(
                                 label: AppLocalizations.of(context).inspection,
                                 hinText: AppLocalizations.of(context)
                                     .selectInspection,
                                 data: value.inspectionList!,
                                 value: value.inspectionValue,
-                                onChange: (newValue) {
+                                onChange: (p0) {
                                   setState(() {
-                                    value.inspectionValue = newValue;
+                                    value.inspectionValue = p0.item;
                                   });
                                 },
                               )

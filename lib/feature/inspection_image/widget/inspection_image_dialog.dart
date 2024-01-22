@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safecty/feature/inspection_image/widget/text_field_image.dart';
+import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/inspection_image.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/app_imagen.dart';
@@ -25,7 +26,7 @@ class InspectionImageDialog extends StatefulWidget {
 
 class _InspectionImageDialogState extends State<InspectionImageDialog> {
   File? _imageFile;
-  bool _activarTexto = true;
+  bool _activeText = false;
   final _formKey = GlobalKey<FormState>();
   final _textEditingController = TextEditingController();
 
@@ -91,11 +92,10 @@ class _InspectionImageDialogState extends State<InspectionImageDialog> {
                   child: Column(
                     children: [
                       MyCustomTextField(
-                        required: _activarTexto,
+                        required: _activeText,
                         textEditingController: _textEditingController,
                         validator: (value) {
-                          if (_activarTexto &&
-                              (value == null || value.isEmpty)) {
+                          if (_activeText && (value == null || value.isEmpty)) {
                             return 'Por favor, ingrese un texto';
                           }
                           return null;
@@ -105,14 +105,14 @@ class _InspectionImageDialogState extends State<InspectionImageDialog> {
                       Row(
                         children: [
                           Checkbox(
-                            value: _activarTexto,
+                            value: _activeText,
                             onChanged: (value) {
                               setState(() {
-                                _activarTexto = value!;
+                                _activeText = value!;
                               });
                             },
                           ),
-                          const Text('Activar Texto'),
+                          const Text('Sin observacion'),
                         ],
                       ),
                     ],
@@ -142,7 +142,7 @@ class _InspectionImageDialogState extends State<InspectionImageDialog> {
                 gradient: LinearGradient(
                   colors: [Colors.orange[200]!, Colors.orange[800]!],
                 ),
-                child: const Text('SIGN IN'),
+                child: Text(AppLocalizations.of(context).send),
               ),
             ],
           ),

@@ -184,4 +184,25 @@ class LocalStorageImpl implements LocalStorage {
       return false;
     }
   }
+
+  @override
+  Future<bool> deleteEvidences(String imageId) async {
+    _localStorageLogger.logStore(
+      description: 'Delete current step micro loan',
+      id: imageId,
+      path: 'Current person',
+    );
+
+    try {
+      await _storeImages.record(imageId).delete(_database);
+      return true;
+    } catch (e) {
+      _localStorageLogger.logStore(
+        description: 'error: $e',
+        id: imageId,
+        path: 'Current evidence',
+      );
+      return false;
+    }
+  }
 }

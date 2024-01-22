@@ -43,6 +43,8 @@ class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
   final InspectionImageRepository _inspectionImageRepository;
   final SecureStorage _secureStorage;
 
+  void init() => super.initialize(InspectionSendViewState.initial);
+
   Future<void> sendInspection() async {
     setState(InspectionSendViewState.loading);
     final Inspection? inspection = await _secureStorage.getInspection();
@@ -147,10 +149,14 @@ class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
                     .sendEmailInspection(inspectionIdField);
                 sendEmail.fold(
                   (Failure failure) => setState(InspectionSendViewState.error),
-                  (bool sendEmail) {
-                    sendEmail
-                        ? setState(InspectionSendViewState.completed)
-                        : setState(InspectionSendViewState.error);
+                  (bool sendEmail) async {
+                    if (sendEmail) {
+                      await _deletePerson();
+                      await _deleteEvidence();
+                      setState(InspectionSendViewState.completed);
+                    } else {
+                      setState(InspectionSendViewState.error);
+                    }
                   },
                 );
               } else {
@@ -198,6 +204,32 @@ class InspectionSendViewModel extends BaseViewModel<InspectionSendViewState> {
       },
     );
     return list;
+  }
+
+  Future<bool> _deletePerson() async {
+    bool validate = false;
+    final responseBoolean =
+        await _inspectionSendRepository.deletePerson(InspectionPerson.id);
+    responseBoolean.fold(
+      (failure) => validate = false,
+      (bool? data) async {
+        validate = data!;
+      },
+    );
+    return validate;
+  }
+
+  Future<bool> _deleteEvidence() async {
+    bool validate = false;
+    final responseBoolean =
+        await _inspectionSendRepository.deleteEvidence(InspectionImage.id);
+    responseBoolean.fold(
+      (failure) => validate = false,
+      (bool? data) async {
+        validate = data!;
+      },
+    );
+    return validate;
   }
 
   Future<List<InspectionImage>?> _getImages() async {

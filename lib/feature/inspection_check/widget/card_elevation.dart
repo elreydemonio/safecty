@@ -51,7 +51,7 @@ class _MyContainerWithElevationState extends State<MyContainerWithElevation> {
             Expanded(
               child: Text(
                 widget.description,
-                maxLines: 7,
+                maxLines: 20,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

@@ -14,8 +14,11 @@
     "Zone": "Zona",
     "selectZone": "Elegir zona",
     "configureInspection": "Configurar inspección",
-    "newInspection": "nueva inspección",
+    "newInspection": "Nueva inspección",
     "readingQr": "Leer qr",
-    "certificate": "certificado",
-    "inspectionParameters": "parámetros de inspecciones"
+    "certificate": "Certificado",
+    "inspectionParameters": "Parámetros de inspecciones",
+    "select": "Selecionar",
+    "selectPerson": "Selecionar la persona",
+    "exit": "Salir"
 }

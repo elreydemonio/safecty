@@ -23,6 +23,8 @@ class HomeViewModel extends BaseViewModel<HomeViewState> {
   WorkCenter? get workCenter => _workCenter;
   User? get user => _user;
 
+  void init() => super.initialize(HomeViewState.initial);
+
   Future<void> getDatesUser() async {
     setState(HomeViewState.loading);
     try {

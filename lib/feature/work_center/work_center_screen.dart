@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/work_center/work_center_view_model.dart';
+import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/work_center.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/spacing.dart';
@@ -246,7 +247,10 @@ class _WorkCenterScreenState extends State<WorkCenterScreen> {
                                                 value.savedWorkCenterId(
                                               workCenterListFilter![index],
                                             ),
-                                            child: const Text('Botón'),
+                                            child: Text(
+                                              AppLocalizations.of(context)
+                                                  .select,
+                                            ),
                                           ),
                                         ],
                                       ),

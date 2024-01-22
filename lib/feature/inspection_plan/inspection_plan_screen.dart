@@ -181,196 +181,196 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                 backgroundColor: Colors.orange.shade900,
               ),
             ),
-            body: Column(
-              children: [
-                Container(
-                  color: Colors.orange,
-                  height: size.height * 0.1,
-                  padding: const EdgeInsets.only(
-                    left: Spacing.medium,
-                    top: Spacing.medium,
-                    right: Spacing.medium,
-                  ),
-                  width: size.width,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColors.black,
-                          size: 30.0,
+            body: SizedBox(
+              height: size.height,
+              width: size.width,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.orange,
+                    height: size.height * 0.1,
+                    padding: const EdgeInsets.only(
+                      left: Spacing.medium,
+                      top: Spacing.medium,
+                      right: Spacing.medium,
+                    ),
+                    width: size.width,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColors.black,
+                            size: 30.0,
+                          ),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(NamedRoute.homeScreen),
                         ),
-                        onPressed: () => Navigator.of(context)
-                            .pushNamed(NamedRoute.homeScreen),
-                      ),
-                      const SizedBox(width: Spacing.medium),
-                      const Text(
-                        "Ousafety app",
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(width: Spacing.medium),
+                        const Text(
+                          "Ousafety app",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: size.height * 0.4,
-                  padding: const EdgeInsets.only(
-                    top: Spacing.xLarge,
-                    bottom: Spacing.xLarge,
-                  ),
-                  width: size.width,
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      _isData
-                          ? Container(
-                              margin: const EdgeInsets.only(
-                                right: Spacing.xLarge + 45.0,
-                                left: Spacing.medium,
-                              ),
-                              child: Column(
-                                children: [
-                                  Wrap(
-                                    direction: Axis.horizontal,
-                                    spacing: 8.0,
-                                    runSpacing: 4.0,
-                                    children: _chartData.map((data) {
-                                      return Indicator(
-                                        color:
-                                            _getColorForSection(data.content),
-                                        text: '${data.content} - ${data.gdp}%',
-                                        isSquare: true,
-                                      );
-                                    }).toList(),
-                                  ),
-                                  Expanded(
-                                    child: PieChart(
-                                      PieChartData(
-                                        sections: _chartData.map((data) {
-                                          return PieChartSectionData(
-                                            color: _getColorForSection(
-                                                data.content),
-                                            value: data.gdp.toDouble(),
-                                            title:
-                                                '${data.content}\n${data.gdp}%',
-                                            radius: 50.0,
-                                            titleStyle: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w900,
-                                              color: AppColors.whiteBone,
-                                            ),
-                                          );
-                                        }).toList(),
-                                        borderData: FlBorderData(show: false),
-                                        centerSpaceRadius: 40.0,
+                  Container(
+                    height: size.height * 0.4,
+                    padding: const EdgeInsets.only(
+                      top: Spacing.xLarge,
+                      bottom: Spacing.xLarge,
+                    ),
+                    width: size.width,
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        _isData
+                            ? Container(
+                                margin: const EdgeInsets.only(
+                                  right: Spacing.xLarge + 45.0,
+                                  left: Spacing.medium,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Wrap(
+                                      direction: Axis.horizontal,
+                                      spacing: 8.0,
+                                      runSpacing: 4.0,
+                                      children: _chartData.map((data) {
+                                        return Indicator(
+                                          color:
+                                              _getColorForSection(data.content),
+                                          text:
+                                              '${data.content} - ${data.gdp}%',
+                                          isSquare: true,
+                                        );
+                                      }).toList(),
+                                    ),
+                                    Expanded(
+                                      child: PieChart(
+                                        PieChartData(
+                                          sections: _chartData.map((data) {
+                                            return PieChartSectionData(
+                                              color: _getColorForSection(
+                                                  data.content),
+                                              value: data.gdp.toDouble(),
+                                              title:
+                                                  '${data.content}\n${data.gdp}%',
+                                              radius: 50.0,
+                                              titleStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w900,
+                                                color: AppColors.whiteBone,
+                                              ),
+                                            );
+                                          }).toList(),
+                                          borderData: FlBorderData(show: false),
+                                          centerSpaceRadius: 40.0,
+                                        ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.all(Spacing.medium),
+                                child: Center(
+                                  child: Image.asset(
+                                    AppImages.noData,
+                                    fit: BoxFit.fill,
                                   ),
-                                ],
-                              ),
-                            )
-                          : Container(
-                              padding: const EdgeInsets.all(Spacing.medium),
-                              child: Center(
-                                child: Image.asset(
-                                  AppImages.noData,
-                                  fit: BoxFit.fill,
                                 ),
                               ),
+                        Positioned(
+                          right: Spacing.medium,
+                          child: Tooltip(
+                            message: _isExpanded ? 'Cerrar' : 'Expandir',
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.orange,
+                              onPressed: () {
+                                setState(() {
+                                  _isExpanded = !_isExpanded;
+                                  if (_isExpanded) {
+                                    _animationController.forward();
+                                  } else {
+                                    _animationController.reverse();
+                                  }
+                                });
+                              },
+                              child: _isExpanded
+                                  ? const Icon(Icons.close)
+                                  : const Icon(Icons.add),
                             ),
-                      Positioned(
-                        right: Spacing.medium,
-                        child: Tooltip(
-                          message: _isExpanded ? 'Cerrar' : 'Expandir',
-                          child: FloatingActionButton(
-                            backgroundColor: Colors.orange,
-                            onPressed: () {
-                              setState(() {
-                                _isExpanded = !_isExpanded;
-                                if (_isExpanded) {
-                                  _animationController.forward();
-                                } else {
-                                  _animationController.reverse();
-                                }
-                              });
-                            },
-                            child: _isExpanded
-                                ? const Icon(Icons.close)
-                                : const Icon(Icons.add),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: Spacing.xLarge + 28.0,
-                        right: Spacing.medium,
-                        child: FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text: AppLocalizations.of(context)
-                                        .certificate,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.star,
-                                    tooltipText: '',
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text:
-                                        AppLocalizations.of(context).readingQr,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.qr_code,
-                                    tooltipText: '',
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text: AppLocalizations.of(context)
-                                        .newInspection,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.person_add_alt,
-                                    tooltipText: '',
-                                    onTap: () {
-                                      _showModal(
-                                        context: context,
-                                        size: size,
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                        Positioned(
+                          bottom: Spacing.xLarge + 28.0,
+                          right: Spacing.medium,
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .certificate,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.star,
+                                      tooltipText: '',
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .readingQr,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.qr_code,
+                                      tooltipText: '',
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .newInspection,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.person_add_alt,
+                                      tooltipText: '',
+                                      onTap: () {
+                                        _showModal(
+                                          context: context,
+                                          size: size,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: size.height * 0.4,
-                  padding: const EdgeInsets.all(Spacing.medium),
-                  width: size.width,
-                  child: Expanded(
+                  Expanded(
                     child: ListView.builder(
                       itemCount:
                           value.inspectionsPlanPending!.listInspection.length,
@@ -408,8 +408,8 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                       },
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }

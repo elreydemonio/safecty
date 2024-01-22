@@ -19,16 +19,20 @@ import 'package:safecty/model/repository/model/post/evidence_inspection.dart';
 import 'package:safecty/model/repository/model/post/inspection_send.dart';
 import 'package:safecty/model/repository/model/post/person_signature.dart';
 import 'package:safecty/model/repository/model/user.dart';
+import 'package:safecty/model/storage/local_storage.dart';
 
 class InspectionSendRepositoryImpl extends InspectionSendRepository {
   InspectionSendRepositoryImpl({
     required endpoints,
     required networkClient,
+    required localStorage,
   })  : _endpoints = endpoints,
-        _networkClient = networkClient;
+        _networkClient = networkClient,
+        _localStorage = localStorage;
 
   final Endpoints _endpoints;
   final NetworkClient _networkClient;
+  final LocalStorage _localStorage;
 
   @override
   Future<Either<Failure, bool>> savedEvidence(
@@ -94,7 +98,8 @@ class InspectionSendRepositoryImpl extends InspectionSendRepository {
       String observations = listEvidence
           .asMap()
           .entries
-          .map((entry) => "${entry.key + 1}) ${entry.value.description}")
+          .map((entry) =>
+              "${entry.key + 1}) ${entry.value.description ?? 'Sin obeservacion'}")
           .join(', ');
 
       List<Parameter> parameters = [];
@@ -254,6 +259,36 @@ class InspectionSendRepositoryImpl extends InspectionSendRepository {
       }
 
       return Right(response.body.replaceAll('"', '').toLowerCase() == "true");
+    } on AppException catch (ae) {
+      return Left(
+        Failure(
+          error: ae.error,
+          description: ae.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteEvidence(String imageId) async {
+    try {
+      final delete = await _localStorage.deleteEvidences(imageId);
+      return Right(delete);
+    } on AppException catch (ae) {
+      return Left(
+        Failure(
+          error: ae.error,
+          description: ae.message,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deletePerson(String personsId) async {
+    try {
+      final delete = await _localStorage.deletePersons(personsId);
+      return Right(delete);
     } on AppException catch (ae) {
       return Left(
         Failure(

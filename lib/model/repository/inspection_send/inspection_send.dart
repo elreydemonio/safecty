@@ -30,4 +30,8 @@ abstract class InspectionSendRepository {
   Future<Either<Failure, bool>> validateInspection(int inspectionId);
 
   Future<Either<Failure, bool>> sendEmailInspection(int inspectionId);
+
+  Future<Either<Failure, bool>> deletePerson(String personsId);
+
+  Future<Either<Failure, bool>> deleteEvidence(String imageId);
 }
