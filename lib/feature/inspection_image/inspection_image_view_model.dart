@@ -41,7 +41,7 @@ class InspectionImageViewModel extends BaseViewModel<InspectionImageViewState> {
   Future<void> getImages() async {
     setState(InspectionImageViewState.loading);
     final response =
-        await _inspectionImageRepository.getImages('InspectionImages');
+        await _inspectionImageRepository.getImages(InspectionImage.id);
 
     response.fold(
       (failure) => setState(InspectionImageViewState.error),

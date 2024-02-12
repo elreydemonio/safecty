@@ -64,7 +64,7 @@ class InspectionPlanRepositoryImpl extends InspectionPlanRepository {
               .toList();
           return Right(
             InspectionsPlanPending(
-              charInspection: char.first,
+              charInspection: char.firstOrNull,
               listInspection: listTable,
             ),
           );

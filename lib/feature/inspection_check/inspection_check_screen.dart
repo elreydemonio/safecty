@@ -5,6 +5,7 @@ import 'package:safecty/feature/inspection_check/inspection_check_view_model.dar
 import 'package:safecty/feature/inspection_check/widget/card_elevation.dart';
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
+import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/parameter_inspecton.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/app_imagen.dart';
@@ -23,6 +24,21 @@ class InspectionCheckScreen extends StatefulWidget {
 class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
   int _selectedIndex = 0;
   List<ParameterInspection>? listParameters;
+
+  DecorationImage _buildDecorationImage(String? imagePath) {
+    if (imagePath != null) {
+      return DecorationImage(
+        image:
+            NetworkImage('http://www.out-safety.com/web/MImagenes/$imagePath'),
+        fit: BoxFit.cover,
+      );
+    } else {
+      return const DecorationImage(
+        image: AssetImage(AppImages.defaultImage),
+        fit: BoxFit.cover,
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -82,11 +98,8 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                 Container(
                   height: size.height * 0.2,
                   width: size.width,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(AppImages.defaultImage),
-                      fit: BoxFit.cover,
-                    ),
+                  decoration: BoxDecoration(
+                    image: _buildDecorationImage(value.inspection?.imagePath),
                   ),
                 ),
                 Container(
@@ -108,11 +121,13 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          buildRow('Zona', value.area!.description),
+                          buildRow(AppLocalizations.of(context).Zone,
+                              value.area!.description),
                           const SizedBox(height: 8),
-                          buildRow('Riesgo', value.risk!.description),
+                          buildRow(AppLocalizations.of(context).risk,
+                              value.risk!.description),
                           const SizedBox(height: 8),
-                          buildRow('Inspection',
+                          buildRow(AppLocalizations.of(context).inspection,
                               value.inspection!.descriptionInspection),
                         ],
                       ),
@@ -131,9 +146,9 @@ class _InspectionCheckScreenState extends State<InspectionCheckScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Parametros de inspeccion",
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context).inspectionParameters,
+                        style: const TextStyle(
                           color: AppColors.black,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,

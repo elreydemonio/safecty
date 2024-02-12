@@ -8,6 +8,7 @@ import 'package:safecty/feature/inspection_check/inspection_check_view_model.dar
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
+import 'package:safecty/feature/inspection_send/inspection_send_view_model.dart';
 import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/feature/profile/profile_view_model.dart';
 import 'package:safecty/feature/work_center/work_center_view_model.dart';
@@ -98,6 +99,10 @@ class _AppState extends State<App> {
               ChangeNotifierProvider<InspectionPersonViewModel>(
                 create: (context) =>
                     widget.bootstrapper.inspectionPersonViewModel,
+              ),
+              ChangeNotifierProvider<InspectionSendViewModel>(
+                create: (context) =>
+                    widget.bootstrapper.inspectionSendViewModel,
               ),
             ],
             child: Consumer<ThemeViewModel>(

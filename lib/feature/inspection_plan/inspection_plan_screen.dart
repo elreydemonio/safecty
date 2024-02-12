@@ -1,21 +1,22 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_view_model.dart';
+import 'package:safecty/feature/inspection_plan/widget/aler_dialog_plan.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_text.dart';
 import 'package:safecty/feature/inspection_plan/widget/button_tooltip.dart';
 import 'package:safecty/feature/inspection_plan/widget/card_inspection_plan.dart';
-import 'package:safecty/widgets/drop_dow_inspection.dart';
+import 'package:safecty/feature/inspection_plan/widget/indicator.dart';
 import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/dropdown_type.dart';
 import 'package:safecty/model/repository/model/gdp_data.dart';
 import 'package:safecty/theme/app_colors.dart';
+import 'package:safecty/theme/app_imagen.dart';
 import 'package:safecty/theme/spacing.dart';
-import 'package:safecty/widgets/color_button.dart';
 import 'package:safecty/widgets/loading_widget.dart';
 import 'package:safecty/widgets/snackbar.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class InspectionPlanScreen extends StatefulWidget {
   const InspectionPlanScreen({super.key});
@@ -28,10 +29,9 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
     with SingleTickerProviderStateMixin {
   final List<GDPDATA> _chartData = [];
   bool _isExpanded = false;
+  bool _isData = true;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  final _formKey = GlobalKey<FormState>();
-
   double convert(double valor, double maximum) {
     double percentage = (valor / maximum).clamp(0, 1);
     double percentageConvert = 1 - percentage;
@@ -53,29 +53,45 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
         await viewModel.getArea();
         await viewModel.getRisk();
         if (viewModel.state == InspectionPlanViewState.completed) {
+          if (viewModel.inspectionsPlanPending!.charInspection == null) {
+            _isData = false;
+          } else {
+            _isData = true;
+          }
           _chartData.add(
             GDPDATA(
               "Ejecutando",
-              viewModel.inspectionsPlanPending!.charInspection.executed.toInt(),
+              viewModel.inspectionsPlanPending!.charInspection == null
+                  ? 0
+                  : viewModel.inspectionsPlanPending!.charInspection!.executed
+                      .toInt(),
             ),
           );
           _chartData.add(
             GDPDATA(
               "Planeado",
-              viewModel.inspectionsPlanPending!.charInspection.scheduled
-                  .toInt(),
+              viewModel.inspectionsPlanPending!.charInspection == null
+                  ? 0
+                  : viewModel.inspectionsPlanPending!.charInspection!.scheduled
+                      .toInt(),
             ),
           );
           _chartData.add(
             GDPDATA(
               "Pediente",
-              viewModel.inspectionsPlanPending!.charInspection.pending.toInt(),
+              viewModel.inspectionsPlanPending!.charInspection == null
+                  ? 0
+                  : viewModel.inspectionsPlanPending!.charInspection!.pending
+                      .toInt(),
             ),
           );
           _chartData.add(
             GDPDATA(
               "Avance",
-              viewModel.inspectionsPlanPending!.charInspection.fulfill.toInt(),
+              viewModel.inspectionsPlanPending!.charInspection == null
+                  ? 0
+                  : viewModel.inspectionsPlanPending!.charInspection!.fulfill
+                      .toInt(),
             ),
           );
         }
@@ -95,6 +111,21 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
         curve: Curves.easeInOut,
       ),
     );
+  }
+
+  Color _getColorForSection(String section) {
+    switch (section) {
+      case "Ejecutando":
+        return const Color(0xFF68c2ec);
+      case "Planeado":
+        return const Color(0xFF1cd16d);
+      case "Pediente":
+        return const Color(0xFFffd600);
+      case "Avance":
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 
   @override
@@ -150,163 +181,217 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                 backgroundColor: Colors.orange.shade900,
               ),
             ),
-            body: Column(
-              children: [
-                Container(
-                  color: Colors.orange,
-                  height: size.height * 0.1,
-                  padding: const EdgeInsets.only(
-                    left: Spacing.medium,
-                    top: Spacing.medium,
-                    right: Spacing.medium,
-                  ),
-                  width: size.width,
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: AppColors.black,
-                        size: 30.0,
-                      ),
-                      SizedBox(width: Spacing.medium),
-                      Text(
-                        "Ousafety app",
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+            body: SizedBox(
+              height: size.height,
+              width: size.width,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.orange,
+                    height: size.height * 0.1,
+                    padding: const EdgeInsets.only(
+                      left: Spacing.medium,
+                      top: Spacing.medium,
+                      right: Spacing.medium,
+                    ),
+                    width: size.width,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColors.black,
+                            size: 30.0,
+                          ),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(NamedRoute.homeScreen),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: size.height * 0.4,
-                  padding: const EdgeInsets.only(
-                    top: Spacing.xLarge,
-                    bottom: Spacing.xLarge,
-                  ),
-                  width: size.width,
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Container(
-                        margin:
-                            const EdgeInsets.only(right: Spacing.xLarge + 45.0),
-                        child: SfCircularChart(
-                          legend: const Legend(
-                            isVisible: true,
-                            overflowMode: LegendItemOverflowMode.wrap,
-                            position: LegendPosition.top,
+                        const SizedBox(width: Spacing.medium),
+                        const Text(
+                          "Ousafety app",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          tooltipBehavior: TooltipBehavior(
-                            enable: true,
-                          ),
-                          series: <CircularSeries>[
-                            RadialBarSeries<GDPDATA, String>(
-                              dataSource: _chartData,
-                              xValueMapper: (GDPDATA data, _) => data.content,
-                              yValueMapper: (GDPDATA data, _) => data.gdp,
-                              dataLabelSettings: const DataLabelSettings(
-                                isVisible: true,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: size.height * 0.4,
+                    padding: const EdgeInsets.only(
+                      top: Spacing.xLarge,
+                      bottom: Spacing.xLarge,
+                    ),
+                    width: size.width,
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        _isData
+                            ? Container(
+                                margin: const EdgeInsets.only(
+                                  right: Spacing.xLarge + 45.0,
+                                  left: Spacing.medium,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Wrap(
+                                      direction: Axis.horizontal,
+                                      spacing: 8.0,
+                                      runSpacing: 4.0,
+                                      children: _chartData.map((data) {
+                                        return Indicator(
+                                          color:
+                                              _getColorForSection(data.content),
+                                          text:
+                                              '${data.content} - ${data.gdp}%',
+                                          isSquare: true,
+                                        );
+                                      }).toList(),
+                                    ),
+                                    Expanded(
+                                      child: PieChart(
+                                        PieChartData(
+                                          sections: _chartData.map((data) {
+                                            return PieChartSectionData(
+                                              color: _getColorForSection(
+                                                  data.content),
+                                              value: data.gdp.toDouble(),
+                                              title:
+                                                  '${data.content}\n${data.gdp}%',
+                                              radius: 50.0,
+                                              titleStyle: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w900,
+                                                color: AppColors.whiteBone,
+                                              ),
+                                            );
+                                          }).toList(),
+                                          borderData: FlBorderData(show: false),
+                                          centerSpaceRadius: 40.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.all(Spacing.medium),
+                                child: Center(
+                                  child: Image.asset(
+                                    AppImages.noData,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
-                              enableTooltip: true,
+                        Positioned(
+                          right: Spacing.medium,
+                          child: Tooltip(
+                            message: _isExpanded ? 'Cerrar' : 'Expandir',
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.orange,
+                              onPressed: () {
+                                setState(() {
+                                  _isExpanded = !_isExpanded;
+                                  if (_isExpanded) {
+                                    _animationController.forward();
+                                  } else {
+                                    _animationController.reverse();
+                                  }
+                                });
+                              },
+                              child: _isExpanded
+                                  ? const Icon(Icons.close)
+                                  : const Icon(Icons.add),
                             ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: Spacing.medium,
-                        child: Tooltip(
-                          message: _isExpanded ? 'Cerrar' : 'Expandir',
-                          child: FloatingActionButton(
-                            backgroundColor: Colors.orange,
-                            onPressed: () {
-                              setState(() {
-                                _isExpanded = !_isExpanded;
-                                if (_isExpanded) {
-                                  _animationController.forward();
-                                } else {
-                                  _animationController.reverse();
-                                }
-                              });
-                            },
-                            child: _isExpanded
-                                ? const Icon(Icons.close)
-                                : const Icon(Icons.add),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: Spacing.xLarge + 28.0,
-                        right: Spacing.medium,
-                        child: FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text: AppLocalizations.of(context)
-                                        .certificate,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.star,
-                                    tooltipText: '',
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text:
-                                        AppLocalizations.of(context).readingQr,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.qr_code,
-                                    tooltipText: '',
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ExpandedButtonText(
-                                    text: AppLocalizations.of(context)
-                                        .newInspection,
-                                  ),
-                                  ExpandedButtonWithTooltip(
-                                    icon: Icons.person_add_alt,
-                                    tooltipText: '',
-                                    onTap: () {
-                                      _showModal(context, size);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                        Positioned(
+                          bottom: Spacing.xLarge + 28.0,
+                          right: Spacing.medium,
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .certificate,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.star,
+                                      tooltipText: '',
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .readingQr,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.qr_code,
+                                      tooltipText: '',
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ExpandedButtonText(
+                                      text: AppLocalizations.of(context)
+                                          .newInspection,
+                                    ),
+                                    ExpandedButtonWithTooltip(
+                                      icon: Icons.person_add_alt,
+                                      tooltipText: '',
+                                      onTap: () {
+                                        _showModal(
+                                          context: context,
+                                          size: size,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: size.height * 0.4,
-                  padding: const EdgeInsets.all(Spacing.medium),
-                  width: size.width,
-                  child: Expanded(
+                  Expanded(
                     child: ListView.builder(
                       itemCount:
                           value.inspectionsPlanPending!.listInspection.length,
                       itemBuilder: (context, index) {
                         return CardInspectionPlan(
+                          onTap: () {
+                            value.getInspectionList(value
+                                .inspectionsPlanPending!
+                                .listInspection[index]
+                                .riskId);
+                            _showModal(
+                              context: context,
+                              size: size,
+                              riskId: value.inspectionsPlanPending!
+                                  .listInspection[index].riskId
+                                  .toString(),
+                              inspectionId: value.inspectionsPlanPending!
+                                  .listInspection[index].inspectionId
+                                  .toString(),
+                            );
+                          },
                           height: size.height * 0.18,
                           width: size.width,
                           executed: value.inspectionsPlanPending!
@@ -323,8 +408,8 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
                       },
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }
@@ -336,113 +421,24 @@ class _InspectionPlanScreenState extends State<InspectionPlanScreen>
     );
   }
 
-  void _showModal(
-    BuildContext context,
-    Size size,
-  ) {
+  void _showModal({
+    required BuildContext context,
+    required Size size,
+    String? riskId,
+    String? inspectionId,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Consumer<InspectionPlanViewModel>(
-          builder: (context, value, child) {
-            return AlertDialog(
-              backgroundColor: AppColors.whiteBone,
-              content: SizedBox(
-                width: size.width * 0.6,
-                height: size.height * 0.55,
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context).configureInspection,
-                          style: const TextStyle(
-                            color: AppColors.black,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: Spacing.medium),
-                        DropDowInspection(
-                          label: AppLocalizations.of(context).Zone,
-                          hinText: AppLocalizations.of(context).selectZone,
-                          data: value.areaList!,
-                          value: value.valueZone,
-                          onChange: (newValue) {
-                            setState(() {
-                              value.valueZone = newValue;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: Spacing.medium),
-                        DropDowInspection(
-                          label: AppLocalizations.of(context).risk,
-                          hinText: AppLocalizations.of(context).selectRisk,
-                          data: value.riskList!,
-                          value: value.risk,
-                          onChange: (risk) async {
-                            setState(() {
-                              value.risk = risk;
-                            });
-
-                            if (risk != null) {
-                              await value.getInspectionList(int.parse(risk));
-                            }
-                          },
-                        ),
-                        const SizedBox(height: Spacing.medium),
-                        value.inspectionList == null
-                            ? const SizedBox()
-                            : DropDowInspection(
-                                label: AppLocalizations.of(context).inspection,
-                                hinText: AppLocalizations.of(context)
-                                    .selectInspection,
-                                data: value.inspectionList!,
-                                value: value.inspectionValue,
-                                onChange: (newValue) {
-                                  setState(() {
-                                    value.inspectionValue = newValue;
-                                  });
-                                },
-                              ),
-                        const SizedBox(height: Spacing.xLarge),
-                        MyElevatedButton(
-                          width: size.width * 0.5,
-                          height: 50.0,
-                          onPressed: () async {
-                            if (_formKey.currentState != null &&
-                                _formKey.currentState!.validate()) {
-                              Navigator.of(context).pop();
-                              value.inspectionValue;
-                              await value.savedConfig();
-                            }
-                          },
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            colors: [Colors.orange[200]!, Colors.orange[800]!],
-                          ),
-                          isLoading: value.state ==
-                              InspectionPlanViewState.loadingInspection,
-                          child: Text(
-                            AppLocalizations.of(context).send,
-                            style: const TextStyle(
-                              color: AppColors.black,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
+        return AlertDialogPlan(
+          size: size,
+          riskId: riskId,
+          inspectionId: inspectionId,
         );
       },
-    );
+    ).then((value) {
+      final viewModel = context.read<InspectionPlanViewModel>();
+      viewModel.setConfig(null, null);
+    });
   }
 }

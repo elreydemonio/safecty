@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:safecty/core/navigation/named_route.dart';
 import 'package:safecty/feature/inspection_image/inspection_image_view_model.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_view_model.dart';
 import 'package:safecty/feature/inspection_person/widget/inspection_person_card.dart';
+import 'package:safecty/feature/inspection_send/inspection_send_view_model.dart';
 import 'package:safecty/generated/l10n.dart';
 import 'package:safecty/model/repository/model/inspection_person.dart';
 import 'package:safecty/theme/app_colors.dart';
 import 'package:safecty/theme/spacing.dart';
 import 'package:safecty/widgets/color_button.dart';
-import 'package:safecty/widgets/drop_dow_inspection.dart';
 import 'package:safecty/widgets/loading_widget.dart';
 import 'package:safecty/widgets/scafold_widget.dart';
 import 'package:safecty/widgets/snackbar.dart';
+import 'package:searchfield/searchfield.dart';
 import 'package:signature/signature.dart';
 
 class InspectionPersonScreen extends StatefulWidget {
@@ -127,21 +129,45 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                           ),
                           const SizedBox(width: Spacing.small),
                           Expanded(
-                            child: DropDowInspection(
-                              label: 'text',
-                              hinText: 'ok',
-                              data: value.personDropDownType,
-                              value: valuePerson,
-                              onChange: (selectedValue) {
+                            child: SearchField(
+                              onSuggestionTap: (p0) {
                                 final selectedPerson = value.listPerson!
                                     .firstWhere((person) =>
-                                        person.personId.toString() ==
-                                        selectedValue);
+                                        person.personId.toString() == p0.item);
                                 setState(() {
                                   selectedPersons.add(selectedPerson);
-                                  valuePerson = selectedValue;
+                                  valuePerson = p0.searchKey;
                                 });
                               },
+                              suggestions: value.listPerson!
+                                  .map(
+                                    (e) => SearchFieldListItem<String>(
+                                        '${e.professionalName} ${e.professionalSurname}',
+                                        item: e.personId.toString(),
+                                        child: Text(
+                                          '${e.professionalName} ${e.professionalSurname}',
+                                        )),
+                                  )
+                                  .toList(),
+                              suggestionState: Suggestion.expand,
+                              textInputAction: TextInputAction.next,
+                              hint: AppLocalizations.of(context).selectPerson,
+                              searchStyle: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                              searchInputDecoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black.withOpacity(0.8),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red),
+                                ),
+                              ),
+                              maxSuggestionsInViewPort: 6,
+                              itemHeight: 50,
                             ),
                           ),
                           const SizedBox(width: Spacing.small),
@@ -163,8 +189,32 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                           ),
                           onDelete: () =>
                               setState(() => selectedPersons.removeAt(index)),
+                          onView: () => _viewSignature(
+                              context, selectedPersons[index], size),
                         );
                       },
+                    ),
+                  ),
+                  MyElevatedButton(
+                    width: size.width,
+                    height: 50.0,
+                    onPressed: () async {
+                      await value.savedPerson(selectedPersons);
+                      final viewModel = context.read<InspectionSendViewModel>();
+                      viewModel.init();
+                      Navigator.of(context).pushReplacementNamed(
+                          NamedRoute.inspectionSendScreen);
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      colors: [Colors.orange[200]!, Colors.orange[800]!],
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context).send,
+                      style: const TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14.0,
+                      ),
                     ),
                   ),
                 ],
@@ -175,6 +225,61 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
         return LoadingWidget(
           height: size.height,
           width: size.width,
+        );
+      },
+    );
+  }
+
+  void _viewSignature(
+    BuildContext context,
+    InspectionPerson person,
+    Size size,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Firma'),
+          contentPadding: const EdgeInsets.all(Spacing.small),
+          content: SizedBox(
+            width: size.width * 0.6,
+            height: size.height * 0.55,
+            child: Column(
+              children: [
+                Container(
+                  width: size.width,
+                  height: size.height * 0.45,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: FileImage(person.file!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    MyElevatedButton(
+                      width: size.width * 0.6,
+                      height: 50.0,
+                      onPressed: () => Navigator.of(context).pop(),
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [Colors.orange[200]!, Colors.orange[800]!],
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context).exit,
+                        style: const TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         );
       },
     );
@@ -230,6 +335,7 @@ class _InspectionPersonScreenState extends State<InspectionPersonScreen> {
                         File cachedFile =
                             await saveUint8ListToCache(data!, fileName);
                         savedSignaturePerson(person, cachedFile);
+                        Navigator.of(context).pop();
                       },
                       borderRadius: BorderRadius.circular(20),
                       gradient: LinearGradient(

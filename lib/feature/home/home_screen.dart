@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.of(context).pushNamed(NamedRoute.profileScreen),
                   child: Container(
                     color: AppColors.white,
-                    height: size.height * 0.11,
+                    height: size.height * 0.14,
                     width: size.width,
                     padding: const EdgeInsets.all(16.0),
                     child: Stack(
@@ -78,11 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey,
-                              image: value.user!.profilePicture == null
+                              image: value.user!.profilePicture != null
                                   ? DecorationImage(
                                       image: MemoryImage(
-                                        base64.decode(
-                                            value.user!.profilePicture!),
+                                        base64Decode(
+                                            value.user!.profilePicture == null
+                                                ? ""
+                                                : value.user!.profilePicture!),
                                       ),
                                       fit: BoxFit.cover,
                                     )
@@ -134,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: Spacing.medium),
                 Container(
-                  height: size.height * 0.75,
+                  height: size.height * 0.7,
                   padding: const EdgeInsets.only(
                     bottom: Spacing.small,
                     left: Spacing.xLarge,

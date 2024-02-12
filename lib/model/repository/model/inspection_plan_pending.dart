@@ -8,5 +8,5 @@ class InspectionsPlanPending {
   });
 
   List<InspectionPlanTable> listInspection;
-  CharInspectionPlan charInspection;
+  CharInspectionPlan? charInspection;
 }

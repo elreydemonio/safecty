@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:safecty/core/navigation/named_route.dart';
+import 'package:safecty/feature/login/login_view_mode.dart';
 import 'package:safecty/feature/profile/profile_view_model.dart';
 import 'package:safecty/feature/profile/widget/profile_card.dart';
 import 'package:safecty/generated/l10n.dart';
@@ -48,8 +49,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (value.state == ProfileViewState.logout) {
           SchedulerBinding.instance.addPostFrameCallback(
             (_) {
-              Navigator.of(context)
-                  .pushReplacementNamed(NamedRoute.loginScreen);
+              final viewModel = context.read<LoginViewModel>();
+              viewModel.init();
+              Navigator.of(context).pushReplacementNamed(
+                NamedRoute.loginScreen,
+                arguments: {"userInfo": "delete"},
+              );
             },
           );
         }

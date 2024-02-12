@@ -2,6 +2,8 @@
   "databaseFileName": "database.db",
   "endpoints": {
     "baseUrlGet": "http://www.out-safety.com/query/sincronizacion/",
+    "baseUrlPost": "http://www.out-safety.com/save/api/",
+    "baseUrlEmail": "https://www.out-safety.com/save/sincronizacion/",
     "getWorkCenterByPerson": "GetCentrosTrabajoByPersona",
     "login": "ValidarPersonaAvatar",
     "workCenter": "GetCentrosTrabajoByPersona",
@@ -10,6 +12,11 @@
     "inspection": "GetInspecciones",
     "risks": "GetRiesgosByEmpresa",
     "parameter": "GetParametros",
-    "person": "GetPersonas"
+    "person": "GetPersonas",
+    "savedInspection": "GuardarInspeccion",
+    "savedSignature": "GuardarFirma",
+    "savedEvidence":"GuardarEvidencia",
+    "validateInspection": "ValidateInspectionComplete",
+    "sendEmail": "SendMailInspecccion"
   }
 }

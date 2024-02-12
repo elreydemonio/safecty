@@ -80,7 +80,7 @@ class LocalStorageImpl implements LocalStorage {
   Future<bool> storeListImages(List<InspectionImage> listImage) async {
     try {
       final InspectionImageList imageList = InspectionImageList(
-        listId: listImage[0].id,
+        listId: InspectionImage.id,
         images: listImage,
       );
 
@@ -162,5 +162,47 @@ class LocalStorageImpl implements LocalStorage {
     }
 
     return <InspectionPerson>[];
+  }
+
+  @override
+  Future<bool> deletePersons(String personasId) async {
+    _localStorageLogger.logStore(
+      description: 'Delete current step micro loan',
+      id: personasId,
+      path: 'Current person',
+    );
+
+    try {
+      await _storePerson.record(personasId).delete(_database);
+      return true;
+    } catch (e) {
+      _localStorageLogger.logStore(
+        description: 'error: $e',
+        id: personasId,
+        path: 'Current person',
+      );
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> deleteEvidences(String imageId) async {
+    _localStorageLogger.logStore(
+      description: 'Delete current step micro loan',
+      id: imageId,
+      path: 'Current person',
+    );
+
+    try {
+      await _storeImages.record(imageId).delete(_database);
+      return true;
+    } catch (e) {
+      _localStorageLogger.logStore(
+        description: 'error: $e',
+        id: imageId,
+        path: 'Current evidence',
+      );
+      return false;
+    }
   }
 }

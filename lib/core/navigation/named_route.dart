@@ -7,4 +7,5 @@ class NamedRoute {
   static const String inspectionCheckScreen = '/inspectionCheck';
   static const String inspectionImageScreen = '/inspectionImage';
   static const String inspectionPersonScreen = '/inspectionPerson';
+  static const String inspectionSendScreen = '/inspectionSend';
 }

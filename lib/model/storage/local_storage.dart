@@ -9,4 +9,6 @@ abstract class LocalStorage {
   Future<List<ParameterInspection>> getListParameters(String listId);
   Future<List<InspectionImage>> getListImage(String imageId);
   Future<List<InspectionPerson>> getPersons(String personasId);
+  Future<bool> deletePersons(String personasId);
+  Future<bool> deleteEvidences(String imageId);
 }

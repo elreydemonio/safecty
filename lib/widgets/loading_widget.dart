@@ -15,10 +15,12 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.whiteBone,
-      child: Center(
-        child: Lottie.asset(AppAnimation.loadingAnimation),
+    return Scaffold(
+      body: Container(
+        color: AppColors.whiteBone,
+        child: Center(
+          child: Lottie.asset(AppAnimation.loadingAnimation),
+        ),
       ),
     );
   }

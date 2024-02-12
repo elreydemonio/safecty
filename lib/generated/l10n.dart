@@ -200,10 +200,10 @@ class AppLocalizations {
     );
   }
 
-  /// `nueva inspección`
+  /// `Nueva inspección`
   String get newInspection {
     return Intl.message(
-      'nueva inspección',
+      'Nueva inspección',
       name: 'newInspection',
       desc: '',
       args: [],
@@ -220,11 +220,51 @@ class AppLocalizations {
     );
   }
 
-  /// `certificado`
+  /// `Certificado`
   String get certificate {
     return Intl.message(
-      'certificado',
+      'Certificado',
       name: 'certificate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parámetros de inspecciones`
+  String get inspectionParameters {
+    return Intl.message(
+      'Parámetros de inspecciones',
+      name: 'inspectionParameters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selecionar`
+  String get select {
+    return Intl.message(
+      'Selecionar',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selecionar la persona`
+  String get selectPerson {
+    return Intl.message(
+      'Selecionar la persona',
+      name: 'selectPerson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salir`
+  String get exit {
+    return Intl.message(
+      'Salir',
+      name: 'exit',
       desc: '',
       args: [],
     );

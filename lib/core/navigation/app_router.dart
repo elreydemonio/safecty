@@ -4,6 +4,7 @@ import 'package:safecty/feature/inspection_check/inspection_check_screen.dart';
 import 'package:safecty/feature/inspection_image/inspection_image_screen.dart';
 import 'package:safecty/feature/inspection_person/inspection_person_screen.dart';
 import 'package:safecty/feature/inspection_plan/inspection_plan_screen.dart';
+import 'package:safecty/feature/inspection_send/insepection_send_screen.dart';
 import 'package:safecty/feature/login/login_screen.dart';
 import 'package:safecty/feature/profile/profile_screen.dart';
 import 'package:safecty/feature/splash/splash_screen.dart';
@@ -63,7 +64,9 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
         case NamedRoute.loginScreen:
           route = SlidePageRoute(
             offset: slide.slideSide,
-            page: const LoginScreen(),
+            page: LoginScreen(
+              logout: argumentsMap == null ? null : ['userInfo'].toString(),
+            ),
             routeName: routeSettings.name,
           );
           break;
@@ -74,6 +77,13 @@ RouteFactory get generatedRoutes => (RouteSettings routeSettings) {
               identificationCard:
                   argumentsMap!["identificationCard"].toString(),
             ),
+            routeName: routeSettings.name,
+          );
+          break;
+        case NamedRoute.inspectionSendScreen:
+          route = SlidePageRoute(
+            offset: slide.slideSide,
+            page: const InspectionSendScreen(),
             routeName: routeSettings.name,
           );
           break;
